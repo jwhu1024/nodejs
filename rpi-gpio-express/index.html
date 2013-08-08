@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<style>
+  #gpio-on, #gpio-off { 
+    width:200px;
+    margin-right:0px;
+    margin-top:25px;
+    margin-left:25px;
+    margin-bottom:25px;
+  }
+</style>
+
+</head>
+
+<body>
+<h3>rpi-gpi with express</h3>
+
+<button id="gpio-on" >GPIO ON</button>
+<button id="gpio-off">GPIO OFF</button>
+
+<script>
+
+
+$(function(){
+/*
+	$("#gpio-on").click(function(){
+		location.href="http://192.168.1.190:3000/gpio?pin=16&act=1";
+		//$(location).attr("href", "http://192.168.1.190:3000/gpio?pin=16&act=1");
+	});
+
+	$("#gpio-off").click(function(){
+		location.href="http://192.168.1.190:3000/gpio?pin=16&act=0";
+		//$(location).attr("href", "http://192.168.1.190:3000/gpio?pin=16&act=0");
+	});
+*/
+
+	$("#gpio-on").click(function(){
+		var url = "http://192.168.1.190:3000/gpio";
+		var params = [
+			"pin=16",
+			"act=1"
+		];
+		(new Image()).src = url + "?" + params.join("&");
+	});
+	
+	$("#gpio-off").click(function(){
+		var url = "http://192.168.1.190:3000/gpio";
+		var params = [
+			"pin=16",
+			"act=0"
+		];
+		(new Image()).src = url + "?" + params.join("&");
+	});
+});
+</script>
+
+</body>
+</html>
