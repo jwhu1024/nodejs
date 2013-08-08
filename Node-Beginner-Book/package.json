@@ -1,0 +1,22 @@
+{
+  "name": "beginner",
+  "version": "1.0.1",
+  "description": "Test project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "null"
+  },
+  "author": "lester_hu@bandrich.com",
+  "license": "MIT",
+  "devDependencies": {
+    "querystring": "~0.2.0",
+    "url": "~0.7.9",
+    "formidable": "~1.0.14",
+    "node-fs": "~0.1.7"
+  }
+}
