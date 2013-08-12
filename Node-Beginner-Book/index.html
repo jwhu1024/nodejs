@@ -38,7 +38,7 @@ $(function(){
 	});
 */
 	$("#gpio-on").click(function(){
-		var url = "http://192.168.1.190:3000/gpio";
+		var url = "http://192.168.1.190:8888/gpio";
 		var params = [
 			"pin=16",
 			"act=1"
@@ -47,7 +47,7 @@ $(function(){
 	});
 	
 	$("#gpio-off").click(function(){
-		var url = "http://192.168.1.190:3000/gpio";
+		var url = "http://192.168.1.190:8888/gpio";
 		var params = [
 			"pin=16",
 			"act=0"

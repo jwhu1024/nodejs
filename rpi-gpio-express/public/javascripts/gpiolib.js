@@ -1,6 +1,6 @@
 var gpio = require('rpi-gpio');
 
-var light_gpio16 = {
+var lightGpioControl = {
 	//pin: 16,
 	//delay: 100,
 	//count: 0,
@@ -45,23 +45,23 @@ var light_gpio16 = {
 	},
 };
 
-module.exports = light_gpio16;
+module.exports = lightGpioControl;
 
 /*
-light_gpio16.on();
+lightGpioControl.on();
 
 setTimeout(function() {
-	light_gpio16.off();
+	lightGpioControl.off();
 }, 2000);
 
 module.exports = {
 	on: function() {
 		console.log('gpio 23 on');
-		gpio.write(light_gpio16.pin, 1, null);
+		gpio.write(lightGpioControl.pin, 1, null);
 	},
 	off: function() {
 		console.log('gpio 23 off');
-		gpio.write(light_gpio16.pin, 0, null);
+		gpio.write(lightGpioControl.pin, 0, null);
 	}
 };
 */

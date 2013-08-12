@@ -15,11 +15,6 @@ function start(route, handle) {
 		var pathname = url.parse(request.url).pathname;
 		console.log("Request for " + pathname + " received.");
 		route(handle, pathname, response, request);
-		//route(handle, pathname, response);
-		//response.writeHead(200, {"Content-Type": "text/plain"});
-		//var content = route(handle, pathname);
-		//response.write(content);
-		//response.end();
 	}
 	http.createServer(onRequest).listen(8888);
 	console.log("Server has started.");

@@ -1,10 +1,23 @@
 var fs = require("fs");
 var querystring = require("querystring");
 var formidable = require("formidable");
+var gpio = require("rpi-gpio");
+var url = require("url");
 
-function start(response) {
+function homepage(response, request) {
+    console.log("Request handler 'homepage' was called.");
+    fs.readFile(__dirname + "/index.html", "utf8", function(err, text) {
+        if (err) {
+            throw err;
+        }
+        response.writeHeader(200, {"Content-Type": "text/html"});  
+        response.write(text);  
+        response.end();
+    });
+}
+
+function start(response, request) {
 	console.log("Request handler 'start' was called.");
-
     var body =
         "<html>" +
         "<head>"+
@@ -54,6 +67,28 @@ function show(response, postData) {
     });
 }
 
+function GpioControl(response, request) {
+    console.log("Request handler 'GpioControl' was called.");
+    var value = querystring.parse(url.parse(request.url).query);
+    //console.log(value.pin);
+    //console.log(value.act);
+    
+    gpio.setup(value.pin, gpio.DIR_OUT, function(){
+        gpio.write(value.pin, value.act, function(err) {
+            if (err) {
+                console.log("function writeOn()");
+                throw err;
+            }
+            console.log("Written to pin");
+        });
+    });
+
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.end();
+}
+
+exports.homepage = homepage;
 exports.start = start;
 exports.upload = upload;
 exports.show = show;
+exports.GpioControl = GpioControl;
