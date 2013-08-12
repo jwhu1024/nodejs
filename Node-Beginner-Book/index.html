@@ -5,28 +5,94 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <style>
-  #gpio-on, #gpio-off { 
+  #gpio-on, #gpio-off, #uploadform, #shellCmd, #ShellCmd, #clearOutput, #uploadform, #gpioPin { 
+  	margin-right:0px;
     width:200px;
-    margin-right:0px;
-    margin-top:25px;
-    margin-left:25px;
-    margin-bottom:25px;
+    height:30px;
   }
 </style>
-
 </head>
 
 <body>
-<h3>rpi-gpi with express</h3>
+<h1>Raspi-Demo</h1>
 
-<button id="gpio-on" >GPIO ON</button>
-<button id="gpio-off">GPIO OFF</button>
+<fieldset style="width:70%">
+    <legend>GPIO</legend>
+    <input id="gpioPin" type="text" value="16">
+    <button id="gpio-on" >GPIO ON</button>
+    <button id="gpio-off">GPIO OFF</button>
+</fieldset>
+
+
+<fieldset style="width:30%">
+    <legend>Shell</legend>
+    <input id="shellCmd" type="text">
+    <button id="ShellCmd">LIST</button>
+    <button id="clearOutput">CLEAR</button>
+    <textarea id="output" rows="20" cols="75" readonly="true"></textarea>
+</fieldset>
+
+<form id="uploadform" action="/upload" enctype="multipart/form-data" method="post">
+  <input type="file" name="upload">
+  <input type="submit" value="Upload file">
+</form>
 
 <script>
+$(function() {
+	$("#gpio-on").click(function(){
+		var dataObj = {pin : $("#gpioPin").val(), act : 1};
+        $.ajax({
+            url: "/gpio",
+            data: dataObj,
+            success: function(data) {
+            	// do nothing...
+            }
+        });
+	});
+	
+	$("#gpio-off").click(function(){
+		var dataObj = {pin : $("#gpioPin").val(), act : 0};
+        $.ajax({
+            url: "/gpio",
+            data: dataObj,
+            success: function(data) {
+            	// do nothing...
+            }
+        });
+	});
 
+	$("#ShellCmd").click(function() {
+		//alert($("#shellCmd").val());
+		var dataObj = {cmd : $("#shellCmd").val()};
+        $.ajax({
+            url: "/list",
+            data: dataObj,
+            success: function(data) {
+            	$("#output").val(data);
+            }
+        });
+    });
 
-$(function(){
-/*
+    $("#clearOutput").click(function() {
+    	$("#output").val("");
+    	$("#shellCmd").val("");
+    });
+
+    $("#shellCmd").keypress(function (event) {
+		if (event.which == 13) { // note that keycode for "ENTER" is 13
+			var dataObj = {cmd : $("#shellCmd").val()};
+	        $.ajax({
+	            url: "/shell",
+	            data: dataObj,
+	            success: function(data) {
+	            	$("#output").val(data);
+	            }
+	        });
+	        $("#shellCmd").val("");
+	    }
+    });
+
+    /*
 	$("#gpio-on").click(function(){
 		location.href="http://192.168.1.190:3000/gpio?pin=16&act=1";
 		//$(location).attr("href", "http://192.168.1.190:3000/gpio?pin=16&act=1");
@@ -36,7 +102,15 @@ $(function(){
 		location.href="http://192.168.1.190:3000/gpio?pin=16&act=0";
 		//$(location).attr("href", "http://192.168.1.190:3000/gpio?pin=16&act=0");
 	});
-*/
+	$("#ShellCmd").click(function(){
+		var url = "http://192.168.1.190:8888/list";
+		var params = [
+			"loc=/usr/bin"
+		];
+		(new Image()).src = url + "?" + params.join("&");
+		//(new Image()).src = url;// + "?" + params.join("&");
+	});
+
 	$("#gpio-on").click(function(){
 		var url = "http://192.168.1.190:8888/gpio";
 		var params = [
@@ -54,6 +128,7 @@ $(function(){
 		];
 		(new Image()).src = url + "?" + params.join("&");
 	});
+*/
 });
 </script>
 

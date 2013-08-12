@@ -9,5 +9,6 @@ handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload;
 handle["/show"] = requestHandlers.show;
 handle["/gpio"] = requestHandlers.GpioControl;
+handle["/shell"] = requestHandlers.ShellCmd;
 
 server.start(router.route, handle);

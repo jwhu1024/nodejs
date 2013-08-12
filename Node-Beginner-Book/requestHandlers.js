@@ -3,6 +3,7 @@ var querystring = require("querystring");
 var formidable = require("formidable");
 var gpio = require("rpi-gpio");
 var url = require("url");
+var exec = require("child_process").exec;
 
 function homepage(response, request) {
     console.log("Request handler 'homepage' was called.");
@@ -10,30 +11,34 @@ function homepage(response, request) {
         if (err) {
             throw err;
         }
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(text);  
+        response.writeHeader(200, {
+            "Content-Type": "text/html"
+        });
+        response.write(text);
         response.end();
     });
 }
 
 function start(response, request) {
-	console.log("Request handler 'start' was called.");
+    console.log("Request handler 'start' was called.");
     var body =
         "<html>" +
-        "<head>"+
-        "<meta http-equiv=\"Content-Type\" content=\"text/html; "+
-        "charset=UTF-8\" />"+
-        "</head>"+
-        "<body>"+
-        "<form action=\"/upload\" enctype=\"multipart/form-data\" "+
-        "method=\"post\">"+
-        "<input type=\"file\" name=\"upload\">"+
-        "<input type=\"submit\" value=\"Upload file\" />"+
-        "</form>"+
-        "</body>"+
+        "<head>" +
+        "<meta http-equiv=\"Content-Type\" content=\"text/html; " +
+        "charset=UTF-8\" />" +
+        "</head>" +
+        "<body>" +
+        "<form action=\"/upload\" enctype=\"multipart/form-data\" " +
+        "method=\"post\">" +
+        "<input type=\"file\" name=\"upload\">" +
+        "<input type=\"submit\" value=\"Upload file\" />" +
+        "</form>" +
+        "</body>" +
         "</html>";
 
-    response.writeHead(200, {"Content-Type": "text/html"});
+    response.writeHead(200, {
+        "Content-Type": "text/html"
+    });
     response.write(body);
     response.end();
 }
@@ -45,7 +50,9 @@ function upload(response, request) {
     form.parse(request, function(error, fields, files) {
         console.log("parsing done");
         fs.renameSync(files.upload.path, "./fromuser.png");
-        response.writeHead(200, {"Content-Type": "text/html"});
+        response.writeHead(200, {
+            "Content-Type": "text/html"
+        });
         response.write("received image:<br/>");
         response.write("<img src='/show' />");
         response.end();
@@ -55,12 +62,16 @@ function upload(response, request) {
 function show(response, postData) {
     console.log("Request handler 'show' was called.");
     fs.readFile("./fromuser.png", "binary", function(error, file) {
-        if(error) {
-            response.writeHead(500, {"Content-Type": "text/plain"});
+        if (error) {
+            response.writeHead(500, {
+                "Content-Type": "text/plain"
+            });
             response.write(error + "\n");
             response.end();
         } else {
-            response.writeHead(200, {"Content-Type": "image/png"});
+            response.writeHead(200, {
+                "Content-Type": "image/png"
+            });
             response.write(file, "binary");
             response.end();
         }
@@ -72,8 +83,8 @@ function GpioControl(response, request) {
     var value = querystring.parse(url.parse(request.url).query);
     //console.log(value.pin);
     //console.log(value.act);
-    
-    gpio.setup(value.pin, gpio.DIR_OUT, function(){
+
+    gpio.setup(value.pin, gpio.DIR_OUT, function() {
         gpio.write(value.pin, value.act, function(err) {
             if (err) {
                 console.log("function writeOn()");
@@ -83,8 +94,24 @@ function GpioControl(response, request) {
         });
     });
 
-    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.writeHead(200, {
+        "Content-Type": "text/plain"
+    });
     response.end();
+}
+
+function ShellCmd(response, request) {
+    console.log("Request handler 'ShellCmd' was called.");
+    var value = querystring.parse(url.parse(request.url).query);
+    console.log(value.cmd);
+
+    var cmd = value.cmd;
+
+    exec(cmd, function(error, stdout, stderr) {
+        response.writeHead(200, {"Content-Type": "text/plain"});
+        response.write(stdout);
+        response.end();
+    });
 }
 
 exports.homepage = homepage;
@@ -92,3 +119,4 @@ exports.start = start;
 exports.upload = upload;
 exports.show = show;
 exports.GpioControl = GpioControl;
+exports.ShellCmd = ShellCmd;

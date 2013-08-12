@@ -11,6 +11,7 @@ function start(route, handle) {
 			response.end();
 			return;
 		}
+		console.log(request.url);
 
 		var pathname = url.parse(request.url).pathname;
 		console.log("Request for " + pathname + " received.");
