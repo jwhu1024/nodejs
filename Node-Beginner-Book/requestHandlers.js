@@ -1,9 +1,9 @@
-var fs = require("fs"),
+var fs          = require("fs"),
     querystring = require("querystring"),
-    formidable = require("formidable"),
-    gpio = require("rpi-gpio"),
-    url = require("url"),
-    exec = require("child_process").exec;
+    formidable  = require("formidable"),
+    gpio        = require("rpi-gpio"),
+    url         = require("url"),
+    exec        = require("child_process").exec;
 
 function homepage(response, request) {
     console.log("Request handler 'homepage' was called.");
@@ -153,7 +153,25 @@ function asyncCase(response, request) {
         },        
         function(error, stdout, stderr) {
             console.log("\n##############Callback################\n");
-            console.log(stdout.length);
+            response.writeHead(200, {
+                "Content-Type": "text/plain",
+                "Content-Length": stdout.length
+            });
+            response.write(stdout);
+            response.end();
+        });
+}
+
+function gmailCheck(response, request) {
+    console.log("Request handler 'gmailCheck' was called.");
+    exec("python demo_mail_notify.py", {
+            encoding: "utf8",
+            timeout: 10000,
+            maxBuffer: 1024*1024,
+            cwd: null,//"/home/pi/nodejs/Node-Beginner-Book/",
+            env: null
+        },
+        function(error, stdout, stderr) {
             response.writeHead(200, {
                 "Content-Type": "text/plain",
                 "Content-Length": stdout.length
@@ -170,3 +188,4 @@ exports.show = show;
 exports.GpioControl = GpioControl;
 exports.ShellCmd = ShellCmd;
 exports.asyncCase = asyncCase;
+exports.gmailCheck = gmailCheck;

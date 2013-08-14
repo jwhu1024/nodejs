@@ -3,20 +3,17 @@
 
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<style>
-	#gpio-on,
-	#gpio-off, 	
-    #gpioPin,
-    #ShowImage
-    {
-  		margin-right:0px;
-    	width:200px;
-    	height:30px;
-  	}
+<style>    
+    #ShowImage,
   	#TextShellCmd,
   	#ShellCmd,
   	#asyncbtn,
-	#clearOutput
+	#clearOutput,
+	#gmailbtn,
+	#gpio-on,
+	#gpioPin,
+	#gpio-off,
+	#gmailOut
 	{
 		width:150px;
     	height:30px;
@@ -33,6 +30,10 @@
     <button id="postbtn">POST</button>
 </fieldset>
 -->
+<fieldset style="width:625px">
+	<input id="gmailOut" type="text" value="">
+	<button id="gmailbtn" >Gmail Check</button>
+</fieldset>
 
 <fieldset style="width:625px">
     <legend>GPIO</legend>
@@ -100,6 +101,15 @@ $(function() {
 			{},										// data
 			function(data, state) {					// callback
 				$("#output").val(data);
+			});
+    });
+
+    $("#gmailbtn").click(function() {
+    	$("#gmailOut").val("");
+    	$.get("/gmailcheck",						// url
+			{},										// data
+			function(data, state) {					// callback
+				$("#gmailOut").val(data);
 			});
     });
 });

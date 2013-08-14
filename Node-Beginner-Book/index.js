@@ -11,5 +11,6 @@ handle["/show"] = requestHandlers.show;
 handle["/gpio"] = requestHandlers.GpioControl;
 handle["/shell"] = requestHandlers.ShellCmd;
 handle["/async"] = requestHandlers.asyncCase;
+handle["/gmailcheck"] = requestHandlers.gmailCheck;
 
 server.start(router.route, handle);
