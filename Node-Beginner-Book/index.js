@@ -10,5 +10,6 @@ handle["/upload"] = requestHandlers.upload;
 handle["/show"] = requestHandlers.show;
 handle["/gpio"] = requestHandlers.GpioControl;
 handle["/shell"] = requestHandlers.ShellCmd;
+handle["/async"] = requestHandlers.asyncCase;
 
 server.start(router.route, handle);

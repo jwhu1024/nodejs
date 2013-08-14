@@ -5,19 +5,24 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <style>
 	#gpio-on,
-	#gpio-off,
- 	#TextShellCmd,
-	#ShellCmd,
-	#clearOutput,
+	#gpio-off, 	
     #gpioPin,
-    #ShowImage {
+    #ShowImage
+    {
   		margin-right:0px;
     	width:200px;
     	height:30px;
   	}
+  	#TextShellCmd,
+  	#ShellCmd,
+  	#asyncbtn,
+	#clearOutput
+	{
+		width:150px;
+    	height:30px;
+	}
 </style>
 </head>
-
 <body>
 <h1>Raspi-Demo</h1>
 
@@ -28,11 +33,11 @@
     <button id="postbtn">POST</button>
 </fieldset>
 -->
-123
+
 <fieldset style="width:625px">
     <legend>GPIO</legend>
     <input id="gpioPin" type="text" value="16">
-    <button id="gpio-on" >123GPIO ON</button>
+    <button id="gpio-on" >GPIO ON</button>
     <button id="gpio-off">GPIO OFF</button>
 </fieldset>
 
@@ -40,11 +45,12 @@
     <legend>Shell</legend>
     <input id="TextShellCmd" type="text">
     <button id="ShellCmd">ENTER</button>
-    <button id="clearOutput">CLEAR</button>
-    <textarea id="output" rows="20" cols="75" readonly="true"></textarea>
+    <button id="asyncbtn" >async Test (find /)</button>
+    <button id="clearOutput">CLEAR</button>    
+    <textarea id="output" rows="20" cols="75" readonly="true" maxlength="2000*1024"></textarea>
 </fieldset>
 
-<fieldset style="width:30%">
+<fieldset style="width:625px">
     <form id="my_form" action="/upload" enctype="multipart/form-data" method="post">
 		<input type="file" name="upload" />
 	  	<input type="submit" value="Send" />
@@ -80,15 +86,22 @@ $(function() {
 
     $("#TextShellCmd").keypress(function (event) {
 		if (event.which == 13) {
-			$.get("/shell",								// url
-				{ cmd: $("#TextShellCmd").val()},		// data
-				function(data, state) {					// callback
+			$.get("/shell",							// url
+				{ cmd: $("#TextShellCmd").val()},	// data
+				function(data, state) {				// callback
 					$("#output").val(data);
 				});
 	        $("#TextShellCmd").val("");
 	    }
     });
 
+    $("#asyncbtn").click(function() {
+    	$.get("/async",								// url
+			{},										// data
+			function(data, state) {					// callback
+				$("#output").val(data);
+			});
+    });
 });
 </script>
 
