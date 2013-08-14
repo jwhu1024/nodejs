@@ -10,25 +10,33 @@
 	#ShellCmd,
 	#clearOutput,
     #gpioPin,
-    #ShowImage { 
+    #ShowImage {
   		margin-right:0px;
     	width:200px;
     	height:30px;
-  }
+  	}
 </style>
 </head>
 
 <body>
 <h1>Raspi-Demo</h1>
 
-<fieldset style="width:70%">
+<!--
+<fieldset style="width:150px">
+    <legend>GET/POST</legend>
+    <button id="getbtn" >GET</button>
+    <button id="postbtn">POST</button>
+</fieldset>
+-->
+123
+<fieldset style="width:625px">
     <legend>GPIO</legend>
     <input id="gpioPin" type="text" value="16">
-    <button id="gpio-on" >GPIO ON</button>
+    <button id="gpio-on" >123GPIO ON</button>
     <button id="gpio-off">GPIO OFF</button>
 </fieldset>
 
-<fieldset style="width:30%">
+<fieldset style="width:625px">
     <legend>Shell</legend>
     <input id="TextShellCmd" type="text">
     <button id="ShellCmd">ENTER</button>
@@ -41,13 +49,6 @@
 		<input type="file" name="upload" />
 	  	<input type="submit" value="Send" />
 	</form>
-    <!--
-    <form id="uploadForm" action="/upload" enctype="multipart/form-data" method="post">
-        <input type="file" name="upload">
-        <input type="submit" value="Upload file">
-        <button id="uploadbtn">UPLOAD!!</button>
-    </form>
-    -->
 </fieldset>
 
 <script>
