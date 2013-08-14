@@ -3,7 +3,6 @@
 
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
 <style>
 	#gpio-on,
 	#gpio-off,
@@ -38,10 +37,17 @@
 </fieldset>
 
 <fieldset style="width:30%">
-    <form action="/upload" enctype="multipart/form-data" method="post">
+    <form id="my_form" action="/upload" enctype="multipart/form-data" method="post">
+		<input type="file" name="upload" />
+	  	<input type="submit" value="Send" />
+	</form>
+    <!--
+    <form id="uploadForm" action="/upload" enctype="multipart/form-data" method="post">
         <input type="file" name="upload">
         <input type="submit" value="Upload file">
+        <button id="uploadbtn">UPLOAD!!</button>
     </form>
+    -->
 </fieldset>
 
 <script>
@@ -81,6 +87,7 @@ $(function() {
 	        $("#TextShellCmd").val("");
 	    }
     });
+
 });
 </script>
 
@@ -164,3 +171,6 @@ $("#gpio-on").click(function(){
 		(new Image()).src = url + "?" + params.join("&");
 	});
 <--
+
+
+
