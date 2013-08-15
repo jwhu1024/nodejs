@@ -5,14 +5,16 @@ var fs          = require("fs"),
     url         = require("url"),
     exec        = require("child_process").exec;
 
-function homepage(response, request) {
-    console.log("Request handler 'homepage' was called.");
+function Homepage(response, request) {
+    console.log("Request handler 'Homepage' was called.");
     fs.readFile(__dirname + "/index.html", "utf8", function(err, text) {
         if (err) {
             throw err;
         }
         response.writeHeader(200, {
             "Content-Type": "text/html"
+            //"Cache-Control": "no-cache",
+            //"Expires": "-1"
         });
         response.write(text);
         response.end();
@@ -46,9 +48,8 @@ function start(response, request) {
 function upload(response, request) {
     console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
-    console.log("about to parse");
-    form.parse(request, function(error, fields, files) {
 
+    form.parse(request, function(error, fields, files) {
         fs.renameSync(files.upload.path, "./fromuser.png");
         response.writeHead(200, {
             "Content-Type": "text/html"
@@ -56,16 +57,6 @@ function upload(response, request) {
         response.write("received image:<br/>");
         response.write("<img src='/show' />");
         response.end();
-        /*
-        fs.readFile(__dirname + "/index.html", "utf8", function(err, text) {
-            if (err) {
-                throw err;
-            }
-            response.writeHeader(200, {"Content-Type": "text/html"});
-            response.write(text);
-            response.end();
-        });
-        */
     });
 }
 
@@ -95,7 +86,7 @@ function GpioControl(response, request) {
     gpio.setup(value.pin, gpio.DIR_OUT, function() {
         gpio.write(value.pin, value.act, function(err) {
             if (err) {
-                console.log("function writeOn()");
+                console.log("function GpioControl() failed");
                 throw err;
             }
             console.log("Written to pin");
@@ -103,54 +94,40 @@ function GpioControl(response, request) {
     });
 
     response.writeHead(200, {
-        "Content-Type": "text/plain"
+        "Content-Type": "text/plain",
+        //"Expires": "-1"
+        //"Cache-Control": "no-cache"
     });
     response.end();
 }
 
-function ShellCmd(response, request) {
-    console.log("Request handler 'ShellCmd' was called.");
+function ShellCommand(response, request) {
+    console.log("Request handler 'ShellCommand' was called.");
     var cmd = querystring.parse(url.parse(request.url).query).cmd;
 
-    exec(cmd, {
-            encoding: "utf8",
-            timeout: 10000000,
-            maxBuffer: 2000000 * 1024 * 1024,
-            cwd: null,
-            env: null
-        },
-        function(error, stdout, stderr) {
-            response.writeHead(200, {
-                "Content-Type": "text/plain",
-                "Content-Length": stdout.length
-            });
-            response.write(stdout);
-            response.end();
-        });
-
-    /*
     exec(cmd, function(error, stdout, stderr) {
     //exec("ps -aux", function(error, stdout, stderr) {
-        console.log("##############Callback");
+        var rsplen = (stdout) ? stdout.length : stderr.length,
+            result = (stdout) ? stdout : stderr;
+
         response.writeHead(200, {
             "Content-Type": "text/plain",
-            "Content-Length": stdout.length
+            "Content-Length": rsplen
         });
-        response.write(stdout);
+        response.write(result);
         response.end();
     });
-*/
 }
 
-function asyncCase(response, request) {
-    console.log("Request handler 'asyncCase' was called.");
+function AsyncCase(response, request) {
+    console.log("Request handler 'AsyncCase' was called.");
     exec("find /", {
             encoding: "utf8",
             timeout: 10000000,
             maxBuffer: 2000000 * 1024 * 1024,
             cwd: null,
             env: null
-        },        
+        },
         function(error, stdout, stderr) {
             console.log("\n##############Callback################\n");
             response.writeHead(200, {
@@ -162,30 +139,34 @@ function asyncCase(response, request) {
         });
 }
 
-function gmailCheck(response, request) {
-    console.log("Request handler 'gmailCheck' was called.");
+function GmailCheck(response, request) {
+    console.log("Request handler 'GmailCheck' was called.");
+
     exec("python demo_mail_notify.py", {
             encoding: "utf8",
             timeout: 10000,
-            maxBuffer: 1024*1024,
-            cwd: null,//"/home/pi/nodejs/Node-Beginner-Book/",
+            maxBuffer: 1024 * 1024,
+            cwd: null,
             env: null
         },
         function(error, stdout, stderr) {
+            var rsplen = (stdout) ? stdout.length : stderr.length,
+                result = (stdout) ? stdout : stderr;
+
             response.writeHead(200, {
                 "Content-Type": "text/plain",
-                "Content-Length": stdout.length
+                "Content-Length": rsplen
             });
-            response.write(stdout);
+            response.write(result);
             response.end();
         });
 }
 
-exports.homepage = homepage;
-exports.start = start;
-exports.upload = upload;
-exports.show = show;
-exports.GpioControl = GpioControl;
-exports.ShellCmd = ShellCmd;
-exports.asyncCase = asyncCase;
-exports.gmailCheck = gmailCheck;
+exports.Homepage     = Homepage;
+exports.start        = start;
+exports.upload       = upload;
+exports.show         = show;
+exports.GpioControl  = GpioControl;
+exports.ShellCommand = ShellCommand;
+exports.AsyncCase    = AsyncCase;
+exports.GmailCheck   = GmailCheck;

@@ -1,16 +1,16 @@
-var server = require("./server.js");
-var router = require("./router.js");
-var requestHandlers = require("./requestHandlers.js");
+var server          = require("./server.js"),
+	router          = require("./router.js"),
+	requestHandlers = require("./requestHandlers.js");
 
 var handle = {};
 
-handle["/"] = requestHandlers.homepage;
-handle["/start"] = requestHandlers.start;
-handle["/upload"] = requestHandlers.upload;
-handle["/show"] = requestHandlers.show;
-handle["/gpio"] = requestHandlers.GpioControl;
-handle["/shell"] = requestHandlers.ShellCmd;
-handle["/async"] = requestHandlers.asyncCase;
-handle["/gmailcheck"] = requestHandlers.gmailCheck;
+handle["/"]           = requestHandlers.Homepage;
+handle["/start"]      = requestHandlers.start;
+handle["/upload"]     = requestHandlers.upload;
+handle["/show"]       = requestHandlers.show;
+handle["/gpio"]       = requestHandlers.GpioControl;
+handle["/shell"]      = requestHandlers.ShellCommand;
+handle["/async"]      = requestHandlers.AsyncCase;
+handle["/gmailcheck"] = requestHandlers.GmailCheck;
 
 server.start(router.route, handle);

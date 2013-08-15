@@ -13,7 +13,9 @@
 	#gpio-on,
 	#gpioPin,
 	#gpio-off,
-	#gmailOut
+	#gmailOut,
+	#getbtn,
+	#postbtn
 	{
 		width:150px;
     	height:30px;
@@ -23,15 +25,15 @@
 <body>
 <h1>Raspi-Demo</h1>
 
-<!--
-<fieldset style="width:150px">
+<!-- HTTP Get/Post -->
+<fieldset style="width:310px">
     <legend>GET/POST</legend>
     <button id="getbtn" >GET</button>
     <button id="postbtn">POST</button>
 </fieldset>
--->
+
 <fieldset style="width:625px">
-	<input id="gmailOut" type="text" value="">
+	<input id="gmailOut" type="text" values="">
 	<button id="gmailbtn" >Gmail Check</button>
 </fieldset>
 
@@ -53,8 +55,8 @@
 
 <fieldset style="width:625px">
     <form id="my_form" action="/upload" enctype="multipart/form-data" method="post">
-		<input type="file" name="upload" />
-	  	<input type="submit" value="Send" />
+		<input id="uploadFile" type="file" name="upload" />
+	  	<input id="uploadbtn" type="submit" value="Send" />
 	</form>
 </fieldset>
 
@@ -112,6 +114,30 @@ $(function() {
 				$("#gmailOut").val(data);
 			});
     });
+    
+    $("#getbtn").click(function() {
+    	$.get("/",									// url
+			{cmd: "ls"},							// data
+			null);									// callback
+    });
+
+    $("#postbtn").click(function() {
+    	$.post("/",									// url
+			{cmd: "ls"},							// data
+			null);									// callback
+    });
+
+/*
+    $("#uploadbtn").click(function() {
+    	alert("hey");
+		$.ajax({
+	        url: "/attachmentURL",
+	        type: "POST",
+	        data: file,
+	        processData: false
+	    });
+    })
+*/  
 });
 </script>
 
