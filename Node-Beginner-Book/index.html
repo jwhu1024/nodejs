@@ -2,18 +2,19 @@
 <html>
 
 <head>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/lester.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
 <script src="./js/bootstrap.min.js"></script>
+
 <!--
-<script src="./js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
 <script src="./js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/lester.css">
--->
 </head>
-
+-->
 <body>
 
 <h1>Raspi-Demo</h1>
@@ -56,16 +57,24 @@
 
 <script>
 $(function() {
-	$("#gpio-on").click(function() {	
-		$.get("/gpio",								// url
-			{ pin: $("#gpioPin").val(), act: '1'},	// data
-			null);									// callback
+	var $gpioPin = $("#gpioPin");
+
+	$("#gpio-on").click(function() {
+		$.ajax({
+			url: "/gpio",
+		  	data: { pin: $gpioPin.val(), act: '1'},
+		  	success: function(){}
+			//cache: false
+		});
 	});
-	
+
 	$("#gpio-off").click(function() {
-		$.get("/gpio",								// url
-			{ pin: $("#gpioPin").val(), act: '0'},	// data
-			null);									// callback
+		$.ajax({
+			url: "/gpio",
+		  	data: { pin: $gpioPin.val(), act: '0'},
+		  	success: function(){}
+			//cache: false
+		});
 	});
 
 	$("#ShellCmd").click(function() {
