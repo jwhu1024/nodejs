@@ -3,10 +3,11 @@ var fs          = require("fs"),
     formidable  = require("formidable"),
     gpio        = require("rpi-gpio"),
     url         = require("url"),
-    exec        = require("child_process").exec;
+    exec        = require("child_process").exec,
+    util        = require("util");
 
 function Homepage(response, request) {
-    console.log("Request handler 'Homepage' was called.");
+    util.log("Request handler 'Homepage' was called.");
     fs.readFile(__dirname + "/index.html", "utf8", function(err, text) {
         if (err) {
             throw err;
@@ -22,7 +23,7 @@ function Homepage(response, request) {
 }
 
 function start(response, request) {
-    console.log("Request handler 'start' was called.");
+    util.log("Request handler 'start' was called.");
     var body =
         "<html>" +
         "<head>" +
@@ -46,7 +47,7 @@ function start(response, request) {
 }
 
 function upload(response, request) {
-    console.log("Request handler 'upload' was called.");
+    util.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
 
     form.parse(request, function(error, fields, files) {
@@ -61,7 +62,7 @@ function upload(response, request) {
 }
 
 function show(response, request) {
-    console.log("Request handler 'show' was called.");
+    util.log("Request handler 'show' was called.");
     fs.readFile("./fromuser.png", "binary", function(error, file) {
         if (error) {
             response.writeHead(500, {
@@ -80,16 +81,16 @@ function show(response, request) {
 }
 
 function GpioControl(response, request) {
-    console.log("Request handler 'GpioControl' was called.");
+    util.log("Request handler 'GpioControl' was called.");
     var value = querystring.parse(url.parse(request.url).query);
 
     gpio.setup(value.pin, gpio.DIR_OUT, function() {
         gpio.write(value.pin, value.act, function(err) {
             if (err) {
-                console.log("function GpioControl() failed");
+                util.log("function GpioControl() failed");
                 throw err;
             }
-            console.log("Written to pin");
+            util.log("Written to pin");
         });
     });
 
@@ -106,7 +107,7 @@ function ShellCommand(response, request) {
     var cmd = querystring.parse(url.parse(request.url).query).cmd;
 
     exec(cmd, function(error, stdout, stderr) {
-    //exec("ps -aux", function(error, stdout, stderr) {
+        //exec("ps -aux", function(error, stdout, stderr) {
         var rsplen = (stdout) ? stdout.length : stderr.length,
             result = (stdout) ? stdout : stderr;
 
@@ -120,7 +121,7 @@ function ShellCommand(response, request) {
 }
 
 function AsyncCase(response, request) {
-    console.log("Request handler 'AsyncCase' was called.");
+    util.log("Request handler 'AsyncCase' was called.");
     exec("find /", {
             encoding: "utf8",
             timeout: 10000000,
@@ -129,7 +130,7 @@ function AsyncCase(response, request) {
             env: null
         },
         function(error, stdout, stderr) {
-            console.log("\n##############Callback################\n");
+            util.log("\n##############Callback################\n");
             response.writeHead(200, {
                 "Content-Type": "text/plain",
                 "Content-Length": stdout.length
@@ -140,7 +141,7 @@ function AsyncCase(response, request) {
 }
 
 function GmailCheck(response, request) {
-    console.log("Request handler 'GmailCheck' was called.");
+    util.log("Request handler 'GmailCheck' was called.");
 
     exec("python demo_mail_notify.py", {
             encoding: "utf8",

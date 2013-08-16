@@ -1,5 +1,8 @@
-var http = require("http");
-var url  = require("url");
+var http	= require("http"),
+	url		= require("url"),
+	exec	= require("child_process").exec,
+	fs		= require("fs"),
+	util	= require("util");
 
 function start(route, handle) {
 	function onRequest(request, response) {
@@ -10,17 +13,30 @@ function start(route, handle) {
 			});
 			response.end();
 			return;
+		} else if ( request.url.match("bootstrap-combined.min.css")		||
+					request.url.match("bootstrap.min.js")				||
+					request.url.match("jquery.min.js")) {
+			fs.readFile(__dirname + request.url, function(error, content) {
+				if (error) {
+					response.writeHead(500);
+					response.end();
+					throw error;
+				} else {
+					response.writeHead(200, {
+						"Content-Type": "text/css"
+					});
+					response.end(content, "utf-8");
+				}
+			});
+		} else {
+			util.log("\n=========================\n" + "[Request URL] " + request.url);
+			var pathname = url.parse(request.url).pathname;
+			util.log("Request for " + pathname + " received.");
+			route(handle, pathname, response, request);
 		}
-
-		// debug only
-		console.log(request.url);
-
-		var pathname = url.parse(request.url).pathname;
-		console.log("Request for " + pathname + " received.");
-		route(handle, pathname, response, request);
 	}
 	http.createServer(onRequest).listen(8888);
-	console.log("Server has started.");
+	util.log("Server has started.");
 }
 
 exports.start = start;

@@ -2,61 +2,72 @@
 <html>
 
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<style>    
-    #ShowImage,
-  	#TextShellCmd,
-  	#ShellCmd,
-  	#asyncbtn,
-	#clearOutput,
-	#gmailbtn,
-	#gpio-on,
-	#gpioPin,
-	#gpio-off,
-	#gmailOut,
-	#getbtn,
-	#postbtn
-	{
-		width:150px;
-    	height:30px;
-	}
+<link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<style>
+#gmailOut,
+#gpioPin
+{
+	width: 50px;
+}
+
+#TextShellCmd
+{
+	width: 180px;
+}
+
+#output {
+	width: 600px;
+}
+
+.well form-search {
+	margin-left: 10px;
+}
+
+#uploadFile,
+#uploadbtn {
+	margin-top: 10px;
+}
 </style>
 </head>
 <body>
+
 <h1>Raspi-Demo</h1>
-
 <!-- HTTP Get/Post -->
-<fieldset style="width:310px">
-    <legend>GET/POST</legend>
-    <button id="getbtn" >GET</button>
-    <button id="postbtn">POST</button>
-</fieldset>
+<form class="well form-search">
+	<label>GET/POST</label><br>
+	<button id="getbtn" class="btn btn-primary" type="button">GET</button>
+	<button id="postbtn" class="btn btn-primary" type="button">POST</button><br><br>
+</form>
 
-<fieldset style="width:625px">
-	<input id="gmailOut" type="text" values="">
-	<button id="gmailbtn" >Gmail Check</button>
-</fieldset>
+<!-- -->
+<form class="well form-search">
+	<label><b>Gmail</b></label><br>
+	<input id="gmailOut" type="text" class="input-block-level">
+	<button id="gmailbtn" class="btn btn-primary" type="button">Gmail Check</button><br><br>
+</form>
 
-<fieldset style="width:625px">
-    <legend>GPIO</legend>
-    <input id="gpioPin" type="text" value="16">
-    <button id="gpio-on" >GPIO ON</button>
-    <button id="gpio-off">GPIO OFF</button>
-</fieldset>
+<!-- -->
+<form class="well form-search">
+	<label><b>GPIO</b></label><br>
+	<input id="gpioPin" type="text" class="input-block-level" value="16">
+	<button id="gpio-on" class="btn btn-primary" type="button">GPIO ON</button>
+	<button id="gpio-off" class="btn btn-primary" type="button">GPIO OFF</button><br><br>
+</form>
 
-<fieldset style="width:625px">
-    <legend>Shell</legend>
-    <input id="TextShellCmd" type="text">
-    <button id="ShellCmd">ENTER</button>
-    <button id="asyncbtn" >async Test (find /)</button>
-    <button id="clearOutput">CLEAR</button>    
-    <textarea id="output" rows="20" cols="75" readonly="true" maxlength="2000*1024"></textarea>
-</fieldset>
+<!-- -->
+<input id="TextShellCmd" type="text" class="input-block-level">
+<button id="ShellCmd" class="btn btn-primary" type="button">ENTER</button>
+<button id="asyncbtn" class="btn btn-primary" type="button">async Test (find /)</button>
+<button id="clearOutput" class="btn btn-primary" type="button">CLEAR</button><br><br>
+<textarea id="output" class="input-block-level" rows="20" cols="25" readonly="true" maxlength="2000*1024"></textarea>
 
+<!-- -->
 <fieldset style="width:625px">
     <form id="my_form" action="/upload" enctype="multipart/form-data" method="post">
-		<input id="uploadFile" type="file" name="upload" />
-	  	<input id="uploadbtn" type="submit" value="Send" />
+		<input id="uploadFile" class="input-block-level" type="file" name="upload" />
+	  	<input id="uploadbtn" class="input-block-level" type="submit" value="Send" />
 	</form>
 </fieldset>
 
@@ -125,102 +136,8 @@ $(function() {
     	$.post("/",									// url
 			{cmd: "ls"},							// data
 			null);									// callback
-    });
-
-/*
-    $("#uploadbtn").click(function() {
-    	alert("hey");
-		$.ajax({
-	        url: "/attachmentURL",
-	        type: "POST",
-	        data: file,
-	        processData: false
-	    });
-    })
-*/  
+    }); 
 });
 </script>
-
 </body>
 </html>
-
-<!--
-<script type="text/javascript">
-/*
-function buildUrl(url, parameters) {
-	var qs = "";
-	for(var key in parameters) {
-	  	var value = parameters[key];
-	  	qs += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
-	}
-  	if (qs.length > 0){
-    	qs = qs.substring(0, qs.length-1); //chop off last "&"
-    	url = url + "?" + qs;
-  	}
-	return url;
-}
-
-function gpioCtrl(action) {
-	if (0 === action.length) {
-		action=1;
-	}
-
-	var url = "/gpio";
-	var param = new Array();
-	param = {pin: $("#gpioPin").val(), act: action};
-	return buildUrl(url, param);
-}
-
-function shellCmdCtrl() {
-	var cmd = $("#TextShellCmd").val();
-	if (cmd) {
-		var url = "/shell";
-		var param = new Array();
-		param = {cmd: cmd};
-		return buildUrl(url, param);
-	} else {
-		return false;
-	}
-}
-*/
-</script>
-
-$("#gpio-on").click(function(){
-		location.href="http://192.168.1.190:3000/gpio?pin=16&act=1";
-		//$(location).attr("href", "http://192.168.1.190:3000/gpio?pin=16&act=1");
-	});
-
-	$("#gpio-off").click(function(){
-		location.href="http://192.168.1.190:3000/gpio?pin=16&act=0";
-		//$(location).attr("href", "http://192.168.1.190:3000/gpio?pin=16&act=0");
-	});
-	$("#ShellCmd").click(function(){
-		var url = "http://192.168.1.190:8888/list";
-		var params = [
-			"loc=/usr/bin"
-		];
-		(new Image()).src = url + "?" + params.join("&");
-		//(new Image()).src = url;// + "?" + params.join("&");
-	});
-
-	$("#gpio-on").click(function(){
-		var url = "http://192.168.1.190:8888/gpio";
-		var params = [
-			"pin=16",
-			"act=1"
-		];
-		(new Image()).src = url + "?" + params.join("&");
-	});
-	
-	$("#gpio-off").click(function(){
-		var url = "http://192.168.1.190:8888/gpio";
-		var params = [
-			"pin=16",
-			"act=0"
-		];
-		(new Image()).src = url + "?" + params.join("&");
-	});
-<--
-
-
-
