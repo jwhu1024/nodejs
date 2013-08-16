@@ -2,41 +2,24 @@
 <html>
 
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/lester.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
-<script src="./js/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<style>
-#gmailOut,
-#gpioPin
-{
-	width: 50px;
-}
-
-#TextShellCmd
-{
-	width: 180px;
-}
-
-#output {
-	width: 600px;
-}
-
-.well form-search {
-	margin-left: 10px;
-}
-
-#uploadFile,
-#uploadbtn {
-	margin-top: 10px;
-}
-</style>
+<!--
+<script src="./js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
+<script src="./js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/lester.css">
+-->
 </head>
+
 <body>
 
 <h1>Raspi-Demo</h1>
 <!-- HTTP Get/Post -->
 <form class="well form-search">
-	<label>GET/POST</label><br>
+	<label><b>GET/POST</b></label><br>
 	<button id="getbtn" class="btn btn-primary" type="button">GET</button>
 	<button id="postbtn" class="btn btn-primary" type="button">POST</button><br><br>
 </form>

@@ -13,9 +13,12 @@ function start(route, handle) {
 			});
 			response.end();
 			return;
-		} else if ( request.url.match("bootstrap-combined.min.css")		||
-					request.url.match("bootstrap.min.js")				||
-					request.url.match("jquery.min.js")) {
+		}
+
+		if (request.url.match("bootstrap-combined.min.css")	||
+			request.url.match("bootstrap.min.js")			||
+			request.url.match("jquery.min.js")				||
+			request.url.match("lester.css")) {
 			fs.readFile(__dirname + request.url, function(error, content) {
 				if (error) {
 					response.writeHead(500);
@@ -28,13 +31,15 @@ function start(route, handle) {
 					response.end(content, "utf-8");
 				}
 			});
-		} else {
-			util.log("\n=========================\n" + "[Request URL] " + request.url);
-			var pathname = url.parse(request.url).pathname;
-			util.log("Request for " + pathname + " received.");
-			route(handle, pathname, response, request);
-		}
+			return;
+		} 
+		
+		var pathname = url.parse(request.url).pathname;
+		util.log("===================================");
+		util.log("Request for " + pathname + " received.");
+		route(handle, pathname, response, request);
 	}
+
 	http.createServer(onRequest).listen(8888);
 	util.log("Server has started.");
 }

@@ -1,0 +1,23 @@
+#gmailOut,
+#gpioPin
+{
+	width: 50px;
+}
+
+#TextShellCmd
+{
+	width: 180px;
+}
+
+#output {
+	width: 600px;
+}
+
+.well form-search {
+	margin-left: 10px;
+}
+
+#uploadFile,
+#uploadbtn {
+	margin-top: 10px;
+}
