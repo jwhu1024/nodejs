@@ -57,7 +57,10 @@
 
 <script>
 $(function() {
-	var $gpioPin = $("#gpioPin");
+	var $gpioPin = $("#gpioPin"),
+		$TextShellCmd = $("#TextShellCmd"),
+		$output = $("#output"),
+		$gmailOut = $("#gmailOut");
 
 	$("#gpio-on").click(function() {
 		$.ajax({
@@ -79,25 +82,25 @@ $(function() {
 
 	$("#ShellCmd").click(function() {
 		$.get("/shell",								// url
-			{ cmd: $("#TextShellCmd").val()},		// data
+			{ cmd: $TextShellCmd.val()},		// data
 			function(data, state) {					// callback
-				$("#output").val(data);
+				$output.val(data);
 			});
     });
 
     $("#clearOutput").click(function() {
-    	$("#output").val("");
-    	$("#TextShellCmd").val("");
+    	$output.val("");
+    	$TextShellCmd.val("");
     });
 
-    $("#TextShellCmd").keypress(function (event) {
+    $TextShellCmd.keypress(function (event) {
 		if (event.which == 13) {
 			$.get("/shell",							// url
-				{ cmd: $("#TextShellCmd").val()},	// data
+				{ cmd: $TextShellCmd.val()},	// data
 				function(data, state) {				// callback
-					$("#output").val(data);
+					$output.val(data);
 				});
-	        $("#TextShellCmd").val("");
+	        $TextShellCmd.val("");
 	    }
     });
 
@@ -105,16 +108,16 @@ $(function() {
     	$.get("/async",								// url
 			{},										// data
 			function(data, state) {					// callback
-				$("#output").val(data);
+				$output.val(data);
 			});
     });
 
     $("#gmailbtn").click(function() {
-    	$("#gmailOut").val("");
+    	$gmailOut.val("");
     	$.get("/gmailcheck",						// url
 			{},										// data
 			function(data, state) {					// callback
-				$("#gmailOut").val(data);
+				$gmailOut.val(data);
 			});
     });
     

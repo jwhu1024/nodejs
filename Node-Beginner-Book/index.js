@@ -1,7 +1,7 @@
 var server          = require("./server.js"),
 	router          = require("./router.js"),
-	util            = require("util"),
-	requestHandlers = require("./requestHandlers.js");
+	requestHandlers = require("./requestHandlers.js"),
+	util            = require("util");
 
 var handle = {
     "/"          : requestHandlers.Homepage,

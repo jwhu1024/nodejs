@@ -32,7 +32,7 @@ function start(route, handle) {
 				}
 			});
 			return;
-		} 
+		}
 		
 		var pathname = url.parse(request.url).pathname;
 		util.log("===================================");
