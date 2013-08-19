@@ -10,7 +10,8 @@ var handle = {
 	"/gpio"      : requestHandlers.GpioControl,
 	"/shell"     : requestHandlers.ShellCommand,
 	"/async"     : requestHandlers.AsyncCase,
-	"/gmailcheck": requestHandlers.GmailCheck
+	"/gmailcheck": requestHandlers.GmailCheck,
+	"/echo"		 : requestHandlers.Echo
 };
 
 server.start(router.route, handle);

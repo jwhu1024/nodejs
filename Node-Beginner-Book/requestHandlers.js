@@ -164,6 +164,10 @@ function GmailCheck(response, request) {
         });
 }
 
+function Echo(response, request) {
+    util.log("Request handler 'Echo' was called.");
+}
+
 exports.Homepage     = Homepage;
 exports.start        = start;
 exports.upload       = upload;
@@ -172,3 +176,4 @@ exports.GpioControl  = GpioControl;
 exports.ShellCommand = ShellCommand;
 exports.AsyncCase    = AsyncCase;
 exports.GmailCheck   = GmailCheck;
+exports.Echo         = Echo;
