@@ -1,0 +1,41 @@
+{
+  "name": "static_server_ref",
+  "version": "0.0.0",
+  "description": "static server for reference",
+  "main": "server.js",
+  "dependencies": {
+    "findit": "~0.1.2",
+    "mime": "~1.2.11",
+    "node-fs": "~0.1.7",
+    "node-static": "~0.7.0",
+    "path": "~0.4.9",
+    "url": "~0.7.9",
+    "util": "~0.4.9",
+    "walk": "~2.2.1",
+    "connect": "~2.8.5",
+    "zlib": "~1.0.5"
+  },
+  "devDependencies": {
+    "path": "~0.4.9",
+    "node-fs": "~0.1.7",
+    "zlib": "~1.0.5",
+    "util": "~0.4.9",
+    "url": "~0.7.9"
+  },
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jwhu1024/nodejs-example.git"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "none",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwhu1024/nodejs-example/issues"
+  }
+}
