@@ -1,0 +1,15 @@
+{
+  "name": "Node-Adv-Topic",
+  "version": "1.0.1",
+  "description": "Node advanced topic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "C:\\Users\\lester_hu\\Desktop\\repository\\github\\nodejs-example\\Node-Adv-Topic"
+  },
+  "author": "lester_hu@bandrich.com",
+  "license": "MIT"
+}
