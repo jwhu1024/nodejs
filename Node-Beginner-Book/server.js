@@ -36,6 +36,8 @@ function start(route, handle) {
 		
 		var pathname = url.parse(request.url).pathname;
 		util.log("===================================");
+		/* Debug only */
+		util.log("Query String " + request.url);
 		util.log("Request for " + pathname + " received.");
 		route(handle, pathname, response, request);
 	}

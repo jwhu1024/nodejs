@@ -11,10 +11,11 @@
 <!--
 <script src="js/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
-<script src="./js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/lester.css">
+<script src="./js/bootstrap.min.js"></script>
 </head>
 -->
+
 <body>
 
 <h1>Raspi-Demo</h1>
@@ -57,35 +58,39 @@
 
 <script>
 $(function() {
-	var $gpioPin = $("#gpioPin"),
+	var cacheable = true;
+	var $gpioPin      = $("#gpioPin"),
 		$TextShellCmd = $("#TextShellCmd"),
-		$output = $("#output"),
-		$gmailOut = $("#gmailOut");
+		$output       = $("#output"),
+		$gmailOut     = $("#gmailOut");
 
 	$("#gpio-on").click(function() {
 		$.ajax({
 			url: "/gpio",
-		  	data: { pin: $gpioPin.val(), act: '1'},
-		  	success: function(){}
-			//cache: false
+		  	data: { pin: $gpioPin.val(), act: '1' },
+		  	success: function(){},
+			cache: cacheable
 		});
 	});
 
 	$("#gpio-off").click(function() {
 		$.ajax({
 			url: "/gpio",
-		  	data: { pin: $gpioPin.val(), act: '0'},
-		  	success: function(){}
-			//cache: false
+		  	data: { pin: $gpioPin.val(), act: '0' },
+		  	success: function(){},
+			cache: cacheable
 		});
 	});
 
 	$("#ShellCmd").click(function() {
-		$.get("/shell",								// url
-			{ cmd: $TextShellCmd.val()},		// data
-			function(data, state) {					// callback
+		$.ajax({
+			url: "/shell",							// url
+		  	data: { cmd: $TextShellCmd.val() },		// data
+		  	success: function(data, state) {		// callback
 				$output.val(data);
-			});
+			},
+			cache: cacheable
+		});
     });
 
     $("#clearOutput").click(function() {
@@ -96,7 +101,7 @@ $(function() {
     $TextShellCmd.keypress(function (event) {
 		if (event.which == 13) {
 			$.get("/shell",							// url
-				{ cmd: $TextShellCmd.val()},	// data
+				{ cmd: $TextShellCmd.val() },	// data
 				function(data, state) {				// callback
 					$output.val(data);
 				});
@@ -105,31 +110,40 @@ $(function() {
     });
 
     $("#asyncbtn").click(function() {
-    	$.get("/async",								// url
-			{},										// data
-			function(data, state) {					// callback
-				$output.val(data);
-			});
+    	$.ajax({
+			url: "/async",							// url
+		  	data: {},								// data
+		  	success: function(data, state) {		// callback
+					$output.val(data);
+				},
+			cache: cacheable
+		});
     });
 
     $("#gmailbtn").click(function() {
     	$gmailOut.val("");
-    	$.get("/gmailcheck",						// url
-			{},										// data
-			function(data, state) {					// callback
-				$gmailOut.val(data);
-			});
+    	$.ajax({
+			url: "/gmailcheck",						// url
+		  	data: {},								// data
+		  	success: function(data, state) {		// callback
+		  			$gmailOut.val(data);
+		  		},
+			cache: cacheable
+		});
     });
     
-    $("#getbtn").click(function() {
-    	$.get("/",									// url
-			{cmd: "ls"},							// data
-			null);									// callback
+    $("#getbtn").click(function() {								
+    	$.ajax({
+			url: "/",								// url
+		  	data: { cmd: "ls" },					// data
+		  	success: function(){},					// callback
+			cache: cacheable
+		});
     });
 
     $("#postbtn").click(function() {
     	$.post("/",									// url
-			{cmd: "ls"},							// data
+			{ cmd: "ls" },							// data
 			null);									// callback
     }); 
 });

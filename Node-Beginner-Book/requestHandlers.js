@@ -156,7 +156,8 @@ function GmailCheck(response, request) {
 
             response.writeHead(200, {
                 "Content-Type": "text/plain",
-                "Content-Length": rsplen
+                "Content-Length": rsplen,
+                //"Cache-Control": "no-cache"
             });
             response.write(result);
             response.end();
