@@ -3,7 +3,7 @@ var connect  = require("connect"),
 	redirect = require("connect-redirection"),
 	account  = require("./conf/account.json");
 
-var keepSession = false;
+var keepSession = true;
 
 app
 	.use(connect.logger("tiny"))	// for logger
@@ -17,8 +17,6 @@ app
 			maxAge: (keepSession) ? null : 30 * 1000	// 30secs
 		},
 		key: "sid"
-		//store: "",
-		//proxy: "",
 	}))
 	.use(connect.router(function(router) {
 		router.get("/", function(req, res) {
@@ -37,22 +35,17 @@ app
 				req.session.user = req.body.name;
 				res.end("/welcome.html");
 			} else {
-				if (req.session.user) {
-					req.seesion.user = "undefined";
-				}
+				req.session.destroy(null);
 				res.end("/login.html");
 			}
 		});
 
 		router.get("/logout", function(req, res) {
-			req.session.destroy(function(err) {
-				if (!err) {
-					console.log("Destroy Successfully, new session will be re-generated next request.");
-				}
-			});
+			req.session.destroy(null);
 			res.redirect("http://" + req.headers.host + "/login.html");
 		});
 	}))
 	.use(connect.static(__dirname + "/public")) // serve static file
 	.use(connect.static(__dirname + "/static")) // serve static file
+	
 .listen(3000);
