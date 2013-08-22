@@ -1,7 +1,7 @@
-var connect  = require('connect'),
+var connect  = require("connect"),
 	app      = connect.createServer(),
-	redirect = require('connect-redirection'),
-	account  = require('./conf/account.json');
+	redirect = require("connect-redirection"),
+	account  = require("./conf/account.json");
 
 var keepSession = false;
 
