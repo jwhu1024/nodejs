@@ -85,15 +85,15 @@ $(function() {
 	$("#ShellCmd").click(function() {
 		$.ajax({
 			url: "/shell",							// url
-		  	data: { cmd: $TextShellCmd.val() },		// data
-		  	success: function(data, state) {		// callback
+			data: { cmd: $TextShellCmd.val() },		// data
+			success: function(data, state) {		// callback
 				$output.val(data);
 			},
 			cache: cacheable
 		});
-    });
+	});
 
-    $("#clearOutput").click(function() {
+	$("#clearOutput").click(function() {
     	$output.val("");
     	$TextShellCmd.val("");
     });
