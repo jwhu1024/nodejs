@@ -1,32 +1,44 @@
-var connect  = require("connect"),
-	app      = connect.createServer(),
-	redirect = require("connect-redirection"),
-	account  = require("./conf/account.json");
+var connect			= require("connect"),
+	app				= connect.createServer(),
+	redirect		= require("connect-redirection"),
+	account			= require("./conf/account.json"),
+	util			= require("util"),
+	sessionManager	= require("./sessionManager.js");
 
 var keepSession = true;
 
 app
-	.use(connect.logger("tiny"))	// for logger
-	.use(connect.query())			// gives us req.query
-	.use(connect.bodyParser())		// gives us req.body
-	.use(connect.cookieParser())	// parse cookie
-	.use(redirect())				// middleware for redirect
-	.use(connect.session({
+	.use(connect.logger("dev"))					// for logger
+	.use(connect.favicon("public/favicon.ico"))	// favicon setting
+	.use(connect.query())						// gives us req.query
+	.use(connect.bodyParser())					// gives us req.body
+	.use(connect.cookieParser())				// parse cookie
+	.use(redirect())							// middleware for redirect
+    .use(connect.session({
 		secret: "0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK",
 		cookie: {
 			maxAge: (keepSession) ? null : 30 * 1000	// 30secs
 		},
 		key: "sid"
 	}))
+	.use(connect.static(__dirname + "/public")) // serve static file
+	.use(connect.static(__dirname + "/static")) // serve static file
 	.use(connect.router(function(router) {
+		router.all("*", function(req, res, next) {
+			sessionManager.checkSession(req, res, next);
+		});
+		
 		router.get("/", function(req, res) {
-			console.log("###" + req.session.user);
+			// for debug
+			sessionManager.dumpSession();
 			
+			// for demo
 			if (req.session.views) {
 				++req.session.views;
 			} else {
 				req.session.views = 1;
 			}
+
 			// check this session have been login
 			if (req.session.user === undefined) {
 				res.redirect("http://" + req.headers.host + "/login.html");
@@ -35,14 +47,15 @@ app
 				res.write("<p><a href=\"/\">Refresh</a></p>");
 				res.write("<p><a href=\"/logout\">LogOut</a></p>");
 				res.write("<p>viewed <strong>" + req.session.views + "</strong> times.</p>");
-				res.end("session-stored user: " + req.session.user + "\n");
+				res.write("session-stored user: " + req.session.user + "\n");
+				res.end("session-stored id: " + req.session.id + "\n");
 			}
 		});
 
 		router.post("/login", function(req, res) {
 			// authentication here
 			if (req.body.name === account.name && req.body.pwd === account.pwd) {
-				req.session.user = req.body.name;
+				sessionManager.registerSession(req);
 				res.end("/welcome.html");
 			} else {
 				req.session.destroy(null);
@@ -51,11 +64,10 @@ app
 		});
 
 		router.get("/logout", function(req, res) {
-			req.session.destroy(null);
+			sessionManager.destroySession(req);
 			res.redirect("http://" + req.headers.host + "/login.html");
 		});
 	}))
-	.use(connect.static(__dirname + "/public")) // serve static file
-	.use(connect.static(__dirname + "/static")) // serve static file
-
 .listen(3000);
+
+
