@@ -20,11 +20,21 @@ app
 	}))
 	.use(connect.router(function(router) {
 		router.get("/", function(req, res) {
+			console.log("###" + req.session.user);
+			
+			if (req.session.views) {
+				++req.session.views;
+			} else {
+				req.session.views = 1;
+			}
 			// check this session have been login
 			if (req.session.user === undefined) {
 				res.redirect("http://" + req.headers.host + "/login.html");
 			} else {
 				res.write("<h1> Welcome </h1>");
+				res.write("<p><a href=\"/\">Refresh</a></p>");
+				res.write("<p><a href=\"/logout\">LogOut</a></p>");
+				res.write("<p>viewed <strong>" + req.session.views + "</strong> times.</p>");
 				res.end("session-stored user: " + req.session.user + "\n");
 			}
 		});
@@ -47,5 +57,5 @@ app
 	}))
 	.use(connect.static(__dirname + "/public")) // serve static file
 	.use(connect.static(__dirname + "/static")) // serve static file
-	
+
 .listen(3000);
