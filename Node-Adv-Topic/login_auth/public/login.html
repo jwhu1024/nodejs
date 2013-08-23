@@ -79,8 +79,8 @@
         $("#signinbtn").click(function() {
           $.ajax({
             type : "POST",
-            //data: { name: "admin", pwd: "admin" },
-            data: { name: $user.val(), pwd: $pwd.val() },
+            data: { name: "admin", pwd: "admin" },
+            //data: { name: $user.val(), pwd: $pwd.val() },
             url : "/login",
             success : function(data) {
               if (data === "/login.html") {

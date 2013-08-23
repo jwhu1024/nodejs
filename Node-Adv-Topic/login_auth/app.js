@@ -47,8 +47,8 @@ app
 				res.write("<p><a href=\"/\">Refresh</a></p>");
 				res.write("<p><a href=\"/logout\">LogOut</a></p>");
 				res.write("<p>viewed <strong>" + req.session.views + "</strong> times.</p>");
-				res.write("session-stored user: " + req.session.user + "\n");
-				res.end("session-stored id: " + req.session.id + "\n");
+				res.write("<p>session-stored user: <strong>" + req.session.user + "</strong></p>");
+				res.end("<p>session-stored id: <strong>" + req.session.id + "</strong></p>");
 			}
 		});
 
