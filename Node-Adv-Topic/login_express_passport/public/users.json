@@ -1,0 +1,14 @@
+{
+	"1": {
+		"id"	  : "1",
+		"username": "admin",
+		"password": "admin",
+		"email": "admin@bandrich.com"
+	},
+	"2": {
+		"id"	  : "2",
+		"username": "bandrich",
+		"password": "bandrich",
+		"email": "bandrich@bandrich.com"
+	}
+}

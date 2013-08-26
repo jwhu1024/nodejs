@@ -1,0 +1,25 @@
+{
+  "name": "login_express_passport",
+  "version": "1.0.0",
+  "description": "login test",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "none"
+  ],
+  "dependencies": {
+    "express": ">= 0.0.0",
+    "ejs": ">= 0.0.0",
+    "passport": ">= 0.0.0",
+    "passport-local": ">= 0.0.0",
+    "connect-flash": "~0.1.0"
+  },
+  "author": "lester_hu@bandrich.com",
+  "license": "MIT"
+}
