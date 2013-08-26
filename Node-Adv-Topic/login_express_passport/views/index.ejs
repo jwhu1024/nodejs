@@ -7,14 +7,9 @@
 	<title> Welcome </title>
 </head>
 <body>
-	<h2>Hello,<%= user.username %>.</h2>
-	<ul>
-		<h5>
-		<li>Username: <%= user.username %></li>
-		<li>Password: <%= user.password %></li>
-		<li>Email: <%= user.email %></li>
-		</h5>
-	</ul><br>	
-	<input class="btn btn-primary" type="button" value="LogOut" onclick='window.location="/logout"'>
+	<h2>Hello <%= user.username %>.</h2>
+
+	<br><input class="btn btn-primary btn-large" type="button" value="Profile" onclick='window.location="/account"'><br>
+	<br><input class="btn btn-primary btn-large" type="button" value="LogOut" onclick='window.location="/logout"'><br>
 </body>
 </html>
