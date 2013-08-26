@@ -4,7 +4,8 @@ var flash           = require("connect-flash"),
 	util            = require("util"),
 	LocalStrategy   = require("passport-local").Strategy,
 	fs				= require("fs"),
-	auth			= require("./auth.js");
+	auth			= require("./auth.js"),
+	ensureAuth		= auth.ensureAuthenticated;
 
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
@@ -52,7 +53,10 @@ app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.session({
-		secret: "IdczacmUfNmqb7RQN8WFzO7iYC7ujXSyIPyumBscDCgRdtc0b4"
+		secret: "IdczacmUfNmqb7RQN8WFzO7iYC7ujXSyIPyumBscDCgRdtc0b4",
+		cookie: {
+			maxAge: 30 * 1000	// 5 minutes
+		},
 	}));
 	app.use(flash());
 	app.use(passport.initialize());
@@ -61,7 +65,7 @@ app.configure(function() {
 	app.use(express.static(__dirname + "/static")); // serve static file
 });
 
-app.get("/", auth.ensureAuthenticated, function(req, res) {
+app.get("/", ensureAuth, function(req, res) {
 	res.render("index", {
 		user: req.user
 	});
@@ -69,6 +73,12 @@ app.get("/", auth.ensureAuthenticated, function(req, res) {
 
 app.get("/login", function(req, res) {
 	res.render("login", { user: req.user, message: req.flash("error") });
+});
+
+app.get("/account", ensureAuth, function(req, res) {
+	res.render("profile", {
+		user: req.user
+	});
 });
 
 app.post("/login",
