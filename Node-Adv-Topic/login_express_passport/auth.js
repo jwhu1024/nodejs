@@ -2,7 +2,7 @@ users = require("./public/users.json");
 
 var MAX_USER_CNT = 2;
 
-exports.findById = function (id, fn) {
+exports.findById = function findById(id, fn) {
 	if (users[id]) {
 		fn(null, users[id]);
 	} else {
@@ -10,7 +10,7 @@ exports.findById = function (id, fn) {
 	}
 };
 
-exports.findByUsername = function (username, fn) {
+exports.findByUsername = function findByUsername(username, fn) {
 	for (var i = 1; i <= MAX_USER_CNT; i++) {
 		if (users[i].username === username) {
 			return fn(null, users[i]);
@@ -19,7 +19,7 @@ exports.findByUsername = function (username, fn) {
 	return fn(null, null);
 };
 
-exports.ensureAuthenticated = function (req, res, next) {
+exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}

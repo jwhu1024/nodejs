@@ -65,6 +65,7 @@ app.configure(function() {
 	app.use(express.static(__dirname + "/static")); // serve static file
 });
 
+// route
 app.get("/", ensureAuth, function(req, res) {
 	res.render("index", {
 		user: req.user
@@ -72,7 +73,11 @@ app.get("/", ensureAuth, function(req, res) {
 });
 
 app.get("/login", function(req, res) {
-	res.render("login", { user: req.user, message: req.flash("error") });
+	if (req.isAuthenticated()) {
+		res.redirect("/account");
+	} else {
+		res.render("login");
+	}
 });
 
 app.get("/account", ensureAuth, function(req, res) {
