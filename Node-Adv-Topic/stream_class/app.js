@@ -10,7 +10,7 @@ http.createServer(function(req, res) {
         readStream = fs.ReadStream(filename);
 
     readStream.pipe(res);
-    
+
     readStream.on("error", function(err) {
         res.end(err.toString());
     });
