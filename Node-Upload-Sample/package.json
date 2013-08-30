@@ -1,0 +1,26 @@
+{
+  "name": "large_file_upload",
+  "version": "0.0.0",
+  "description": "upload large",
+  "main": "app.js",
+  "dependencies": {
+    "formidable": "~1.0.14"
+  },
+  "devDependencies": {
+    "formidable": "~1.0.14",
+    "express": "~3.3.7",
+    "ejs": "~0.8.4"
+  },
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "lester_hu@bandrich.com",
+  "license": "MIT"
+}
