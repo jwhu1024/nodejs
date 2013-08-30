@@ -10,4 +10,8 @@ exports.createStream = function (oldPath, oldName) {
 
     // remove temp file
     fs.unlinkSync(oldPath);
+
+    output.on("error", function() {
+		console.log("Ignored");
+    });
 };

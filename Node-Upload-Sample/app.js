@@ -20,12 +20,12 @@ app.get("/", function(req, res) {
     res.render("index");
 });
 
-app.post('/upload_form', function(req, res) {
+app.post("/upload_form", function(req, res) {
     var uploadObj = req.files.upload;
     pub.createStream(uploadObj.path, uploadObj.name);
 
     res.render("result", {
-        uploadInfo: req.files.upload
+        uploadInfo: uploadObj
     });
 });
 
