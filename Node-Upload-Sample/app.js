@@ -1,8 +1,8 @@
 var express = require("express"),
-    util = require("util"),
-    fs = require("fs"),
-    pub = require("./public.js"),
-    app = express();
+    util    = require("util"),
+    fs      = require("fs"),
+    pub     = require("./public.js"),
+    app     = express();
 
 // configure Express
 app.configure(function() {
@@ -12,7 +12,7 @@ app.configure(function() {
     app.use(express.cookieParser());
     app.use(express.bodyParser({}));
     app.use(app.router);
-    app.use(express.static(__dirname + "//upload_dir"));    // serve static file
+    app.use(express.static(__dirname + "//upload_dir")); // serve static file
 });
 
 // route
