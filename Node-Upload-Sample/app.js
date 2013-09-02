@@ -13,18 +13,18 @@ app.configure(function() {
         defer: true
     }));
     app.use(app.router);
-    app.use(express.static(__dirname + upload.setting.uploadDir)); // serve static file
+    app.use(express.static(__dirname + upload.setting.uploadDir));
     app.use(express.errorHandler());
-});
-
-// download
-app.get("/attachment/:fileName", function(req, res, next){
-    res.download(__dirname + upload.setting.uploadDir + req.params.fileName);
 });
 
 // home
 app.get("/", function(req, res) {
     res.render("index");
+});
+
+// download
+app.get("/attachment/:fileName", function(req, res, next){
+    res.download(__dirname + upload.setting.uploadDir + req.params.fileName);
 });
 
 // upload
