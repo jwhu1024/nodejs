@@ -1,9 +1,7 @@
-var express   = require("express"),
-    util      = require("util"),
-    fs        = require("fs"),
-    pub       = require("./public.js"),
-    uploadDir = __dirname + "//upload_dir",
-    app       = express();
+var express       = require("express"),
+    fs            = require("fs"),
+    upload        = require("./upload.js"),
+    app           = express();
 
 // configure Express
 app.configure(function() {
@@ -11,22 +9,18 @@ app.configure(function() {
     app.set("view engine", "ejs");
     app.use(express.logger("tiny"));
     app.use(express.cookieParser());
-    app.use(express.limit(10240000));
     app.use(express.bodyParser({
         keepExtensions: true,
-        limit: "10mb",
-        //limit = 2 * 1024 * 1024,
         defer: true
     }));
     app.use(app.router);
-    //app.use(express.directory(uploadDir));
-    app.use(express.static(uploadDir)); // serve static file
+    app.use(express.static(__dirname + upload.setting.uploadDir)); // serve static file
     app.use(express.errorHandler());
 });
 
 // download
 app.get("/attachment/:fileName", function(req, res, next){
-    res.download(uploadDir + "//" + req.params.fileName);
+    res.download(__dirname + upload.setting.uploadDir + req.params.fileName);
 });
 
 // home
@@ -36,28 +30,7 @@ app.get("/", function(req, res) {
 
 // upload
 app.post("/upload_form", function(req, res) {
-    req.form.on("progress", function(bytesReceived, bytesExpected) {
-        console.log(((bytesReceived / bytesExpected)*100) + "% uploaded");
-    });
-    
-    req.form.on("end", function() {
-        console.log(req.files);
-        var uploadObj = req.files.upload;
-        pub.createStream(uploadObj.path, uploadObj.name);
-        
-        res.render("result", {
-            uploadInfo: uploadObj
-        });
-    });
+    upload.handleFileUpload(req, res);
 });
 
 app.listen(3000);
-
-/*
-    form.on("complete", function (err) {
-        console.log("##############################################################");
-    });
-    req.form.on("error", function(error) {
-        console.log("dkfjlsdkjflsdjflsd");
-    });
-*/
