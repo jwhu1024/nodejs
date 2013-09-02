@@ -1,5 +1,4 @@
 var express       = require("express"),
-    fs            = require("fs"),
     upload        = require("./upload.js"),
     app           = express();
 

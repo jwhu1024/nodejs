@@ -4,26 +4,6 @@ var fs            = require("fs"),
 
 exports.setting = uploadSetting;
 
-exports.createStream = function (oldPath, oldName) {
-    var newPath = __dirname + uploadSetting.uploadDir + oldName,
-        input   = fs.createReadStream(oldPath, {flags: "r"}),
-        output  = fs.createWriteStream(newPath, {flags: "w"});
-
-    // pipe here
-    input.pipe(output);
-
-    // remove temp file
-    fs.unlinkSync(oldPath);
-
-    input.on("error", function(err) {
-        console.log("Ignored1");
-    });
-
-    output.on("error", function(err) {
-		console.log("Ignored2");
-    });
-};
-
 exports.handleFileUpload = function (req, res) {
     var prevPercent = 0,
         size = 0,
@@ -54,7 +34,7 @@ exports.handleFileUpload = function (req, res) {
         procEndEvent = function() {
             /* save file through stream and return result page */            
             var uploadObj = req.files.upload;
-            upload.createStream(uploadObj.path, uploadObj.name);
+            createStream(uploadObj.path, uploadObj.name);
             res.render("result", {
                 uploadInfo: uploadObj
             });
@@ -62,6 +42,7 @@ exports.handleFileUpload = function (req, res) {
         procErrorEvent = function(err) {
             /* just print error message */
             util.log(err);
+            res.end("Unknown Error");
         };
 
     /* register event listener */
@@ -69,3 +50,23 @@ exports.handleFileUpload = function (req, res) {
     req.form.on("end", procEndEvent);
     req.form.on("error", procErrorEvent);
 };
+
+function createStream(oldPath, oldName) {
+    var newPath = __dirname + uploadSetting.uploadDir + oldName,
+        input   = fs.createReadStream(oldPath, {flags: "r"}),
+        output  = fs.createWriteStream(newPath, {flags: "w"});
+
+    // pipe here
+    input.pipe(output);
+
+    // remove temp file
+    fs.unlinkSync(oldPath);
+
+    input.on("error", function(err) {
+        util.log("input error event");
+    });
+
+    output.on("error", function(err) {
+        util.log("output error event");
+    });
+}
