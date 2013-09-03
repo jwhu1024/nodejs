@@ -1,6 +1,6 @@
-var express       = require("express"),
-    upload        = require("./upload.js"),
-    app           = express();
+var express = require("express"),
+    upload  = require("./upload.js"),
+    app     = express();
 
 // configure Express
 app.configure(function() {

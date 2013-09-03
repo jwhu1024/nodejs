@@ -7,7 +7,8 @@ exports.setting = uploadSetting;
 exports.handleFileUpload = function(req, res) {
     var prevPercent = 0,
     procFileEvent = function(name, file) {
-        var newPath = __dirname + uploadSetting.uploadDir + file.name,
+        if (file.name) {
+            var newPath = __dirname + uploadSetting.uploadDir + file.name,
             input = fs.createReadStream(file.path, {
                 flags: "r",
                 autoclose: true
@@ -17,21 +18,25 @@ exports.handleFileUpload = function(req, res) {
                 autoclose: true
             });
 
-        input.on("data", function(chunk) {
-            output.write(chunk);
-        });
+            input.on("data", function(chunk) {
+                output.write(chunk);
+            });
 
-        input.on("error", function(err) {
-            util.log("input error event");
-        });
+            input.on("error", function(err) {
+                util.log("input error event");
+            });
 
-        output.on("error", function(err) {
-            util.log("output error event");
-        });
+            output.on("error", function(err) {
+                util.log("output error event");
+            });
+        } else {
+            handleEvent(req, regEvent, false);
+            res.end("File is not selected!");
+        }        
     },
     procProgress = function(bytesReceived, bytesExpected) {
         /* abort this request if data size exceeds the limit size */
-        if (!uploadSetting.limitEnable && bytesExpected > uploadSetting.limit) {
+        if (uploadSetting.limitEnable && bytesExpected > uploadSetting.limit) {
             /* unregister our listener */
             handleEvent(req, regEvent, false);
 
@@ -74,7 +79,7 @@ exports.handleFileUpload = function(req, res) {
         error    : procErrorEvent,
         file     : procFileEvent
     };
-
+    
     /* register event listener */
     handleEvent(req, regEvent, true);
 };
