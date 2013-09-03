@@ -10,20 +10,36 @@ exports.handleFileUpload = function(req, res) {
         if (file.name) {
             var newPath = __dirname + uploadSetting.uploadDir + file.name,
             input = fs.createReadStream(file.path, {
-                flags: "r",
+                flags: "r+",
                 autoclose: true
             }),
             output = fs.createWriteStream(newPath, {
-                flags: "w",
+                flags: "w+",
                 autoclose: true
             });
 
             input.on("data", function(chunk) {
-                output.write(chunk);
+                if (output.write(chunk) === false) {
+                    input.pause();
+                }
             });
 
+            input.on("close", function() {
+                /* remove temp file */
+                fs.unlink(req.files.upload.path, null);
+                
+                /* return result page */
+                res.render("result", {
+                    uploadInfo: file
+                });
+            });
+            
             input.on("error", function(err) {
                 util.log("input error event");
+            });
+
+            output.on("drain", function() {
+                input.resume();
             });
 
             output.on("error", function(err) {
@@ -58,20 +74,12 @@ exports.handleFileUpload = function(req, res) {
         }
     },
     procEndEvent = function() {
-        /* save file through stream and return result page */
-        var uploadObj = req.files.upload;
-
-        // remove temp file
-        fs.unlinkSync(uploadObj.path);
-
-        res.render("result", {
-            uploadInfo: uploadObj
-        });
+        // do something when form transfer complete
     },
     procErrorEvent = function(err) {
         /* just print error message */
         res.end("Unknown Error");
-    },
+    },    
     /* Event & Callback */
     regEvent = {
         progress : procProgress,

@@ -23,8 +23,15 @@ app.get("/", function(req, res) {
 });
 
 // download
-app.get("/attachment/:fileName", function(req, res, next){
-    res.download(__dirname + upload.setting.uploadDir + req.params.fileName);
+app.get("/attachment/:fileName", function(req, res, next) {
+    var downloadFile = __dirname + upload.setting.uploadDir + req.params.fileName;
+    require("fs").exists(downloadFile, function (exists) {
+        if (exists) {
+            res.download(downloadFile);
+        } else {
+            res.end("File Not Found");
+        }
+    });    
 });
 
 // upload
