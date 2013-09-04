@@ -1,6 +1,6 @@
 {
-	"limitEnable"    : false,
+	"limitEnable"    : true,
     "limit"          : 209715200,
-    "progress"       : true,
+    "progress"       : false,
     "uploadDir"      : "\\upload_dir\\"
 }
