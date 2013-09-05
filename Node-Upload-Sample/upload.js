@@ -12,6 +12,7 @@ exports.handleFileUpload = function(req, res, uploadDir) {
     procFileEvent = function(name, file) {
         util.log("Handle formidable file event");
         uploadObj = file;
+
         oldPath   = uploadObj.path;
         newPath   = uploadDir + uploadObj.name;
 
@@ -51,7 +52,11 @@ exports.handleFileUpload = function(req, res, uploadDir) {
     },
     procAbortEvent = function() {
         util.log("Handle formidable abort event");
-        _unlinkFile(oldPath);
+
+        if (oldPath) {
+            _unlinkFile(oldPath);    
+        }
+                
         // unregister our listener
         _handleEvent(req, regEvent, false);
     },
