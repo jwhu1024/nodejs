@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Upload Example</title>
+  </head>
+  <body>
+    <form id="uploadForm"
+          enctype="multipart/form-data"
+          action="/upload"
+          method="post">
+      <input type="file" id="userPhotoInput" name="userPhoto" />
+      <button id="subtn" type="button">Upload</button>
+    </form>
+ 
+    <span id="status" />
+    <img id="uploadedImage" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/javascripts/jquery.form.js"></script>
+    <script src="/javascripts/upload.js"></script>
+  </body>
+</html>
