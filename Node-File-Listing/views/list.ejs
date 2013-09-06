@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
+		<script src="./js/bootstrap.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="./js/bootstrap.file-input.js"></script>
+		<style>
+		  li.filelist {
+		    margin-bottom:5px;
+			}
+		</style>
+    <title>Upload Example</title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+	<ul>
+		<% for(var i=0; i<supplies.length; i++) {%>
+			<li class="filelist">
+				<%- linkTo(supplies[i]) %>
+			</li>
+		<% } %>
+	</ul>
+	<br><br>
+	<h1> Upload </h1>
+	<form method= "POST" action="/upload_form" enctype="multipart/form-data" class="navbar-search pull-left">
+	  <input type="file" class="btn btn-primary" name="upload" multiple="multiple" />
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+
+	<br>
+
+	<script>
+		$(document).ready(function(){
+			$('input[type=file]').bootstrapFileInput();
+			$('.file-inputs').bootstrapFileInput();
+		});
+	</script>
+  </body>
+</html>

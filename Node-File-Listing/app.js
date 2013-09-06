@@ -1,9 +1,9 @@
-var express       = require("express"),
-    findit        = require("findit"),
-    upload        = require("./upload.js"),    
-    uploadFolder  = __dirname + upload.setting.uploadDir,
-    listFolder    = __dirname + upload.setting.listDir,
-    app           = express();
+var express         = require("express"),
+    util            = require("util"),
+    upload          = require("./upload.js"),
+    list            = require("./list.js"),
+    uploadFolder    = __dirname + upload.setting.uploadDir,
+    app             = express();
 
 // configure Express
 app.configure(function() {
@@ -19,16 +19,26 @@ app.configure(function() {
     }));
     app.use(app.router);
     app.use(express.static(__dirname + upload.setting.uploadDir));
-    app.use(express.errorHandler());
+    app.use(express.static(__dirname + "/static"));
+    app.use(express.errorHandler());    
 });
 
-// home
+// extend this function for ejs view engine
+app.locals.linkTo = function(name) {
+    return util.format("<a href=\"/upload_dir/%s\" class=\"btn btn-primary btn-mini\">%s</a>", name, name);
+};
+
+// home - file listing
 app.get("/", function(req, res) {
+    list.handleFileList(req, res, upload.setting.uploadDir);
+});
+
+app.get("/upload_page", function(req, res) {
     res.render("upload");
 });
 
 // download
-app.get("/attachment/:fileName", function(req, res, next) {
+app.get("/upload_dir/:fileName", function(req, res, next) {
     var downloadFile = uploadFolder + req.params.fileName;
     require("fs").exists(downloadFile, function (exists) {
         if (exists) {

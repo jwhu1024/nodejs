@@ -55,7 +55,7 @@ app.configure(function() {
 	app.use(express.session({
 		secret: "IdczacmUfNmqb7RQN8WFzO7iYC7ujXSyIPyumBscDCgRdtc0b4",
 		cookie: {
-			maxAge: 30 * 1000	// 5 minutes
+			maxAge: null	// 5 minutes
 		},
 	}));
 	app.use(flash());

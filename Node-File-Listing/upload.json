@@ -2,6 +2,5 @@
 	"limitEnable"    : false,
     "limit"          : 209715200,
     "progress"       : true,
-    "uploadDir"      : "\\upload_dir\\",
-    "listDir"		 : "\\br-bsp\\"
+    "uploadDir"      : "\\upload_dir\\"
 }
