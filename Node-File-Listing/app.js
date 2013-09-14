@@ -1,9 +1,10 @@
-var express         = require("express"),
-    util            = require("util"),
-    upload          = require("./upload.js"),
-    list            = require("./list.js"),
-    uploadFolder    = __dirname + upload.setting.uploadDir,
-    app             = express();
+var express = require("express"),
+    util = require("util"),
+    upload = require("./upload.js"),
+    list = require("./list.js"),
+    uploadFolder = __dirname + "/" + upload.setting.uploadDir,
+    app = express(),
+    jsonTest = require("./test.json");
 
 // configure Express
 app.configure(function() {
@@ -11,21 +12,27 @@ app.configure(function() {
     app.set("view engine", "ejs");
     app.use(express.logger("tiny"));
     app.use(express.cookieParser());
-    //app.use(express.limit("4mb"));
     app.use(express.bodyParser({
         keepExtensions: true,
         defer: true,
         uploadDir: uploadFolder
     }));
     app.use(app.router);
-    app.use(express.static(__dirname + upload.setting.uploadDir));
+    app.use(express.static(__dirname));
     app.use(express.static(__dirname + "/static"));
-    app.use(express.errorHandler());    
+    app.use(express.errorHandler());
 });
 
 // extend this function for ejs view engine
 app.locals.linkTo = function(name) {
     return util.format("<a href=\"/upload_dir/%s\" class=\"btn btn-primary btn-mini\">%s</a>", name, name);
+};
+
+app.locals.isMatch = function(_dirname, _fileParent) {
+    if (_dirname.match(_fileParent)) {
+        return true;
+    }
+    return false;
 };
 
 // home - file listing
@@ -37,10 +44,14 @@ app.get("/upload_page", function(req, res) {
     res.render("upload");
 });
 
+app.get("/source", function(req, res) {
+    // undefined
+});
+
 // download
 app.get("/upload_dir/:fileName", function(req, res, next) {
     var downloadFile = uploadFolder + req.params.fileName;
-    require("fs").exists(downloadFile, function (exists) {
+    require("fs").exists(downloadFile, function(exists) {
         if (exists) {
             res.download(downloadFile);
         } else {

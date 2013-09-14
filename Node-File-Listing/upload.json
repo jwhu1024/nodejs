@@ -2,5 +2,5 @@
 	"limitEnable"    : false,
     "limit"          : 209715200,
     "progress"       : true,
-    "uploadDir"      : "\\upload_dir\\"
+    "uploadDir"      : "upload_dir"
 }
