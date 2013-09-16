@@ -1,10 +1,9 @@
-var express = require("express"),
-    util = require("util"),
-    upload = require("./upload.js"),
-    list = require("./list.js"),
+var express      = require("express"),
+    util         = require("util"),
+    upload       = require("./upload.js"),
+    list         = require("./list.js"),
     uploadFolder = __dirname + "/" + upload.setting.uploadDir,
-    app = express(),
-    jsonTest = require("./test.json");
+    app          = express();
 
 // configure Express
 app.configure(function() {
@@ -28,29 +27,17 @@ app.locals.linkTo = function(name) {
     return util.format("<a href=\"/upload_dir/%s\" class=\"btn btn-primary btn-mini\">%s</a>", name, name);
 };
 
-app.locals.isMatch = function(_dirname, _fileParent) {
-    if (_dirname.match(_fileParent)) {
-        return true;
-    }
-    return false;
-};
-
-// home - file listing
+// list/download
 app.get("/", function(req, res) {
+    res.render("dynatree");
+});
+
+app.get("/list", function(req, res) {
     list.handleFileList(req, res, upload.setting.uploadDir);
 });
 
-app.get("/upload_page", function(req, res) {
-    res.render("upload");
-});
-
-app.get("/source", function(req, res) {
-    // undefined
-});
-
-// download
-app.get("/upload_dir/:fileName", function(req, res, next) {
-    var downloadFile = uploadFolder + req.params.fileName;
+app.get("/upload_dir/*", function(req, res, next) {
+    var downloadFile = uploadFolder + "/" + req.params[0];
     require("fs").exists(downloadFile, function(exists) {
         if (exists) {
             res.download(downloadFile);
@@ -61,6 +48,10 @@ app.get("/upload_dir/:fileName", function(req, res, next) {
 });
 
 // upload
+app.get("/upload_page", function(req, res) {
+    res.render("upload");
+});
+
 app.post("/upload_form", function(req, res) {
     upload.handleFileUpload(req, res, uploadFolder);
 });

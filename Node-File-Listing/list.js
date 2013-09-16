@@ -13,15 +13,17 @@ exports.handleFileList = function(req, res, listFolder) {
         };
 
     readDirectory(curDir, function(err, data) {
-        if (err) {
-            throw err;
-        }
+        setTimeout(function() {
+            if (err) {
+                throw err;
+            }
 
-        res.writeHead(200, {
-            "Content-Type": "application/json"
-        });
+            res.writeHead(200, {
+                "Content-Type": "application/json"
+            });
 
-        res.end(JSON.stringify(data));
+            res.end(JSON.stringify(data));
+        }, 500);
     }, _filter);
 };
 
@@ -154,7 +156,7 @@ var readDirectory = function(path, callback, filter) {
                             callback(undefined, data); // callback w/ data
                         } else {
                             // children folders were found. do nothing here (we are waiting for the children to callback)
-                            console.log("children folders were found. do nothing here");
+                            //console.log("children folders were found. do nothing here");
                         }
                     }
                 });
@@ -168,3 +170,4 @@ var readDirectory = function(path, callback, filter) {
         }
     });
 };
+
