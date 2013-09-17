@@ -1,6 +1,6 @@
 var fs            = require("fs"),
     util          = require("util"),
-    uploadSetting = require("./upload.json");
+    uploadSetting = require("./conf/upload.json");
 
 exports.setting = uploadSetting;
 
@@ -17,7 +17,6 @@ exports.handleFileUpload = function(req, res, uploadDir) {
         newPath   = uploadDir + "/" + uploadObj.name;
 
         if (uploadSetting.limitEnable && (file.size > uploadSetting.limit)) {
-            console.log(file.size + "size######################");
             // remove temp file
             _unlinkFile(oldPath);
 

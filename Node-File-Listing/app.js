@@ -22,11 +22,6 @@ app.configure(function() {
     app.use(express.errorHandler());
 });
 
-// extend this function for ejs view engine
-app.locals.linkTo = function(name) {
-    return util.format("<a href=\"/upload_dir/%s\" class=\"btn btn-primary btn-mini\">%s</a>", name, name);
-};
-
 // list/download
 app.get("/", function(req, res) {
     res.render("dynatree");
@@ -48,10 +43,6 @@ app.get("/upload_dir/*", function(req, res, next) {
 });
 
 // upload
-app.get("/upload_page", function(req, res) {
-    res.render("upload");
-});
-
 app.post("/upload_form", function(req, res) {
     upload.handleFileUpload(req, res, uploadFolder);
 });

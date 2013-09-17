@@ -23,7 +23,7 @@ exports.handleFileList = function(req, res, listFolder) {
             });
 
             res.end(JSON.stringify(data));
-        }, 500);
+        }, 300);
     }, _filter);
 };
 
@@ -140,7 +140,6 @@ var readDirectory = function(path, callback, filter) {
                                         } else {
                                             // more children folders to be processed. do nothing here.
                                         }
-
                                     }, filter);
                                 })(obj);
                             }
