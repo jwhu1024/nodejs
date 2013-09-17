@@ -28,7 +28,7 @@
 	<style>
 		form { display: block; margin: 20px auto; background: #eee; border-radius: 10px; padding: 15px }
 		#progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
-		#bar { background-color: #2313D4; width:0%; height:20px; border-radius: 3px; }
+		#bar { background-color: #EDCA7E; width:0%; height:20px; border-radius: 3px; }
 		#percent { position:absolute; display:inline-block; top:3px; left:48%; }
 	</style>
 
@@ -39,7 +39,7 @@
 		  return a > b ? 1 : a < b ? -1 : 0;
 		};
 
-		$(function(){
+		$(function() {
 			// list/download
 			$("#tree").dynatree({
 				initAjax: {
@@ -53,9 +53,9 @@
 							// do nothing...
 				    } else {
 				    	$.msgBox({
-						    title: "Are You Sure",
+						    title  : "Are You Sure",
 						    content: "Would you like download " + node.data.title,
-						    type: "confirm",
+						    type   : "confirm",
 						    buttons: [{ value: "Yes" }, { value: "No" }],
 						    success: function (result) {
 		  		        if (result == "Yes") {
@@ -63,7 +63,7 @@
 						          type: 'GET',
 				              url: node.data.path,
 				              success: function(data){
-						            window.location = node.data.path;
+												window.location = node.data.path;
 						          }
 						     	  });
 						      }
@@ -83,7 +83,7 @@
 				var node = $("#tree").dynatree("getRoot");
 				node.sortChildren(null, true);
 			});
-			
+
 			$("#btnToggleExpand").click(function(){
 				$("#tree").dynatree("getRoot").visit(function(node){
 					node.toggleExpand();
