@@ -4,7 +4,7 @@ var util      = require("util"),
     settings  = require("./conf/setting.json"),
     deepCount = 0;
 
-exports.handleFileList = function(req, res, listFolder) {
+exports.handleFileList = function (req, res, listFolder) {
     var curDir = "./" + listFolder,
         _filter = {
             depth   : settings.depth,
@@ -107,6 +107,10 @@ var readDirectory = function(path, callback, filter) {
                             title : title,
                             path : path + "/" + title
                         };
+
+                        if (stat.size) {
+                            obj.size = stat.size;
+                        }
 
                         // push data 
                         data.push(obj);

@@ -39,6 +39,15 @@
 		  return a > b ? 1 : a < b ? -1 : 0;
 		};
 
+		function bytesToSize(bytes) {
+	    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+	    if (bytes == 0) {
+	    	return 'n/a';
+	    }
+	    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+	    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+		};
+
 		$(function() {
 			// list/download
 			$("#tree").dynatree({
@@ -47,35 +56,36 @@
 					url: "/list"
 	      },
 	      onClick: function(node, event) {
-	      	//console.dir(node.data);
-	      	if(node.getEventTargetType(event) == "title") {
-				    if(node.data.isFolder) {
-							// do nothing...
-				    } else {
-				    	$.msgBox({
-						    title  : "Are You Sure",
-						    content: "Would you like download " + node.data.title,
-						    type   : "confirm",
-						    buttons: [{ value: "Yes" }, { value: "No" }],
-						    success: function (result) {
-		  		        if (result == "Yes") {
-						        $.ajax({
-						          type: 'GET',
-				              url: node.data.path,
-				              success: function(data){
-												window.location = node.data.path;
-						          }
-						     	  });
-						      }
+	      	console.dir(node.data);
+	      	if(node.getEventTargetType(event) == "title" && !node.data.isFolder) {
+						$.msgBox({
+						  title  : "Are You Sure",
+						  content: "Would you like download " + node.data.title,
+						  type   : "confirm",
+						  buttons: [{ value: "Yes" }, { value: "No" }],
+						  success: function (result) {
+		  		      if (result == "Yes") {
+						      $.ajax({
+						        type: 'GET',
+				            url: node.data.path,
+				            success: function(data){
+											window.location = node.data.path;
+						        }
+						  	  });
 						    }
-							});
-				    }
+						  }
+						});
 				  }
 			    //return false;// Prevent default processing
 				},
+				onCustomRender: function (node) {
+					if (node.data.size) {
+						node.data.title += " - " + bytesToSize(node.data.size);
+					}
+				},
 				onActivate: function(node) {
 					var node = $("#tree").dynatree("getRoot");
-					node.sortChildren(cmp, true);
+					node.sortChildren(cmp, true);					
 				}
 			});
 
