@@ -79,8 +79,9 @@
 			    //return false;// Prevent default processing
 				},
 				onCustomRender: function (node) {
-					if (node.data.size) {
+					if (!node.data.isAppend && node.data.size) {
 						node.data.title += " - " + bytesToSize(node.data.size);
+						node.data.isAppend = true;
 					}
 				},
 				onActivate: function(node) {
