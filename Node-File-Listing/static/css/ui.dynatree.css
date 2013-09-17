@@ -160,7 +160,7 @@ span.dynatree-expander:hover
 .dynatree-loading span.dynatree-expander  /* 'Loading' status overrides all others */
 {
 	background-position: 0 0;
-	background-image: url("loading.gif");
+	background-image: "images/loading.gif";
 }
 
 
