@@ -12,7 +12,6 @@ exports.handleFileUpload = function(req, res, uploadDir) {
     procFileEvent = function(name, file) {
         util.log("Handle formidable file event");
         uploadObj = file;
-
         oldPath   = uploadObj.path;
         newPath   = uploadDir + "/" + uploadObj.name;
 
