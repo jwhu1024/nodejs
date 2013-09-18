@@ -18,6 +18,7 @@ exports.handleFileList = function (req, res, listFolder) {
                 throw err;
             }
 
+            res.setHeader("Content-Type", "application/json");
             res.end(JSON.stringify(data));
         }, 300);
     }, _filter);

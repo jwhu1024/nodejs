@@ -31,7 +31,7 @@ app.get("/list", function(req, res) {
     list.handleFileList(req, res, upload.setting.uploadDir);
 });
 
-app.get("/upload_dir/*", function(req, res, next) {
+app.get("/upload_dir/*", function(req, res) {
     var downloadFile = uploadFolder + "/" + req.params[0];
     require("fs").exists(downloadFile, function(exists) {
         if (exists) {

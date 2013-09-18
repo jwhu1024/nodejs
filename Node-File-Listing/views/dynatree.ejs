@@ -51,8 +51,7 @@
 		$(function() {
 			// list/download
 			$("#tree").dynatree({
-				// 0:quiet, 1:normal, 2:debug
-				debugLevel: 0,
+				debugLevel: 0,	// 0:quiet, 1:normal, 2:debug
 				//autoCollapse: true,
 				initAjax: {
 					noLink : true,
@@ -61,24 +60,17 @@
 	      onClick: function(node, event) {
 	      	if(node.getEventTargetType(event) == "title" && !node.data.isFolder) {
 						$.msgBox({
-						  title  : "Are You Sure",
-						  content: "Would you like download " + node.data.title,
-						  type   : "confirm",
-						  buttons: [{ value: "Yes" }, { value: "No" }],
-						  success: function (result) {
+						  title   : "Are You Sure",
+						  content : "Would you like download " + node.data.title,
+						  type    : "confirm",
+						  buttons : [{ value: "Yes" }, { value: "No" }],
+						  success : function (result) {
 		  		      if (result == "Yes") {
-						      $.ajax({
-						        type: 'GET',
-				            url: node.data.path,
-				            success: function(data){
-											window.location = node.data.path;
-						        }
-						  	  });
+						  	  window.location.href = node.data.path;
 						    }
 						  }
 						});
 				  }
-			    //return false;// Prevent default processing
 				},
 				onPostInit: function(isReloading, isError) {
 					setTimeout(function () {
@@ -143,8 +135,7 @@
 	<a href="#" id="btnSortAll">Sort tree</a> |
 	<a href="#" id="btnToggleExpand">Toggle expand</a>
 
-	<div id="tree">
-	</div>
+	<div id="tree"></div>
 
 	<h1>FileUpload Example</h1>
 	<hr size="3" align="center" noshade width="100%" color="gray">
