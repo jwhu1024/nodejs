@@ -42,7 +42,7 @@
 		function bytesToSize(bytes) {
 	    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
 	    if (bytes == 0) {
-	    	return "0 KB";
+	    	return "0 " + sizes[1];
 	    }
 	    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 	    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
@@ -78,16 +78,17 @@
 				  }
 			    //return false;// Prevent default processing
 				},
+				onFocus: function(node) {
+					setTimeout(function () {
+						var rootNode = $("#tree").dynatree("getRoot");
+						rootNode.sortChildren(cmp, true);
+					}, 0);					
+				},
 				onCustomRender: function (node) {
-					console.log(node.data);
 					if (!node.data.isAppend && node.data.size != undefined) {
 						node.data.title += " - " + bytesToSize(node.data.size);
 						node.data.isAppend = true;
 					}
-				},
-				onActivate: function(node) {
-					var node = $("#tree").dynatree("getRoot");
-					node.sortChildren(cmp, true);					
 				}
 			});
 
@@ -134,7 +135,7 @@
 </head>
 
 <body class="example">
-	<h1>Example File List/Download</h1>
+	<h1>File List/Download Example</h1>
 
 	<hr size="3" align="center" noshade width="100%" color="gray">
 	<a href="#" id="btnSortAll">Sort tree</a> |
@@ -143,7 +144,7 @@
 	<div id="tree">
 	</div>
 
-	<h1>Example FileUpload</h1>
+	<h1>FileUpload Example</h1>
 	<hr size="3" align="center" noshade width="100%" color="gray">
 
 	<form id="myForm"
