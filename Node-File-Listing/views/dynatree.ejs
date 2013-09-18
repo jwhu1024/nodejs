@@ -51,6 +51,8 @@
 		$(function() {
 			// list/download
 			$("#tree").dynatree({
+				// 0:quiet, 1:normal, 2:debug
+				debugLevel: 0,
 				initAjax: {
 					noLink : true,
 					url: "/list"
@@ -78,11 +80,11 @@
 				  }
 			    //return false;// Prevent default processing
 				},
-				onFocus: function(node) {
+				onPostInit: function(isReloading, isError) {
 					setTimeout(function () {
 						var rootNode = $("#tree").dynatree("getRoot");
 						rootNode.sortChildren(cmp, true);
-					}, 0);					
+					}, 0);			
 				},
 				onCustomRender: function (node) {
 					if (!node.data.isAppend && node.data.size != undefined) {
