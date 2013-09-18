@@ -53,12 +53,12 @@
 			$("#tree").dynatree({
 				// 0:quiet, 1:normal, 2:debug
 				debugLevel: 0,
+				//autoCollapse: true,
 				initAjax: {
 					noLink : true,
 					url: "/list"
 	      },
 	      onClick: function(node, event) {
-	      	console.dir(node.data);
 	      	if(node.getEventTargetType(event) == "title" && !node.data.isFolder) {
 						$.msgBox({
 						  title  : "Are You Sure",

@@ -17,6 +17,7 @@ exports.handleFileList = function (req, res, listFolder) {
             if (err) {
                 throw err;
             }
+
             res.end(JSON.stringify(data));
         }, 300);
     }, _filter);
