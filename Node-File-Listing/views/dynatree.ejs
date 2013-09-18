@@ -42,7 +42,7 @@
 		function bytesToSize(bytes) {
 	    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
 	    if (bytes == 0) {
-	    	return 'n/a';
+	    	return "0 KB";
 	    }
 	    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 	    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
@@ -79,7 +79,8 @@
 			    //return false;// Prevent default processing
 				},
 				onCustomRender: function (node) {
-					if (!node.data.isAppend && node.data.size) {
+					console.log(node.data);
+					if (!node.data.isAppend && node.data.size != undefined) {
 						node.data.title += " - " + bytesToSize(node.data.size);
 						node.data.isAppend = true;
 					}

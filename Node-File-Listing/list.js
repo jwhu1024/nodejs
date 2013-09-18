@@ -108,7 +108,7 @@ var readDirectory = function(path, callback, filter) {
                             path : path + "/" + title
                         };
 
-                        if (stat.size) {
+                        if (stat.isFile()) {
                             obj.size = stat.size;
                         }
 
