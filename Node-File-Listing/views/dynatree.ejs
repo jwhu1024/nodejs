@@ -61,10 +61,10 @@
 		}
 
 		$(function() {
+			var $tree = $("#tree");
 			// list/download
-			$("#tree").dynatree({
+			$tree.dynatree({
 				debugLevel: 0,	// 0:quiet, 1:normal, 2:debug
-				//autoCollapse: true,
 				initAjax: {
 					noLink : true,
 					url: "/list"
@@ -86,7 +86,7 @@
 				},
 				onPostInit: function(isReloading, isError) {
 					setTimeout(function () {
-						var rootNode = $("#tree").dynatree("getRoot");
+						var rootNode = $tree.dynatree("getRoot");
 						rootNode.sortChildren(cmp, true);
 					}, 0);			
 				},
@@ -99,12 +99,12 @@
 			});
 
 			$("#btnSortAll").click(function(){
-				var node = $("#tree").dynatree("getRoot");
+				var node = $tree.dynatree("getRoot");
 				node.sortChildren(null, true);
 			});
 
 			$("#btnToggleExpand").click(function(){
-				$("#tree").dynatree("getRoot").visit(function(node){
+				$tree.dynatree("getRoot").visit(function(node){
 					node.toggleExpand();
 				});
 				return false;
@@ -173,9 +173,5 @@
 	</div>
 	<br/>
 	<div id="message"></div>
-
-	<!--
-	<a href="/" class="btn">Refresh</a><br>
-	-->
 </body>
 </html>
