@@ -97,7 +97,7 @@ function _handleEvent(req, regEvent, reg) {
 }
 
 function _unlinkFile (_path) {
-    fs.exists(_path, function(exists) {
+    fs.exists(_path, function (exists) {
         if (exists) {
             fs.unlink(_path, function (err) {
                 util.log("successfully deleted file");

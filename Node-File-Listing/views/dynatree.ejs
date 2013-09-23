@@ -76,6 +76,7 @@
 						  content : "Would you like download " + node.data.title,
 						  type    : "confirm",
 						  buttons : [{ value: "Yes" }, { value: "No" }],
+						  opacity : 0.7,
 						  success : function (result) {
 		  		      if (result == "Yes") {
 						  	  window.location.href = node.data.path;
@@ -112,6 +113,19 @@
 
 			// upload
 			var options = {
+				clearForm : true,
+				beforeSubmit: function(arr, $form, options) { 
+     			if(!arr[0].value) {
+     				$.msgBox({
+					    title: "Oops",
+					    content: "Please select file then re-submit",
+					    type: "error",
+					    opacity:0.7
+						});
+						// cancel submit action
+     				return false;
+     			}
+				},
 				beforeSend: function() {
 					$("#progress").show();
 					//clear everything
@@ -133,7 +147,7 @@
 				},
 				error: function() {
 					$("#message").html("<font color='red'> ERROR: unable to upload files</font>");
-				} 
+				}
 			};
 			$("#myForm").ajaxForm(options);
 		});

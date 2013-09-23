@@ -23,18 +23,18 @@ app.configure(function() {
 });
 
 // list/download
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     res.render("dynatree");
 });
 
-app.get("/list", function(req, res) {
+app.get("/list", function (req, res) {
     list.handleFileList(req, res, upload.setting.uploadDir);
 });
 
 //app.get("/upload_dir/:filename", function(req, res) {
 //  var downloadFile = uploadFolder + "/" + req.params.filename;
 //}
-app.get("/upload_dir/*", function(req, res) {
+app.get("/upload_dir/*", function (req, res) {
     var downloadFile = uploadFolder + "/" + req.params[0];
     require("fs").exists(downloadFile, function(exists) {
         if (exists) {
@@ -46,7 +46,7 @@ app.get("/upload_dir/*", function(req, res) {
 });
 
 // upload
-app.post("/upload_form", function(req, res) {
+app.post("/upload_form", function (req, res) {
     upload.handleFileUpload(req, res, uploadFolder);
 });
 
