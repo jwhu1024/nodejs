@@ -50,6 +50,16 @@
 	    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 		};
 
+		function btnClickaCol(cb) {
+		  $("#tree").dynatree("option", "autoCollapse", cb.checked);
+		}
+
+		function btnClickShowCb(cb) {
+		  $("#tree").dynatree("option", "checkbox", cb.checked);
+		  var tree = $("#tree").dynatree("getTree");
+		  tree.reload();
+		}
+
 		$(function() {
 			// list/download
 			$("#tree").dynatree({
@@ -127,18 +137,9 @@
 			};
 			$("#myForm").ajaxForm(options);
 		});
-
-		function btnClickaCol(cb) {
-		  $("#tree").dynatree("option", "autoCollapse", cb.checked);
-		}
-
-		function btnClickShowCb(cb) {
-		  $("#tree").dynatree("option", "checkbox", cb.checked);
-		  var tree = $("#tree").dynatree("getTree");
-		  tree.reload();
-		}
 	</script>
 </head>
+<body>
 	<h3>File List/Download Example</h3>
 
 	<hr size="3" align="center" noshade width="100%" color="gray">
@@ -154,6 +155,7 @@
 	<label for="showCheckBox" class="css-label">Show CheckBox</label>
 
 	<br><br>
+
 	<h3>FileUpload Example</h3>
 	<hr size="3" align="center" noshade width="100%" color="gray">
 

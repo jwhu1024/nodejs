@@ -13,14 +13,14 @@ exports.handleFileList = function (req, res, listFolder) {
         };
 
     readDirectory(curDir, function(err, data) {
-        setTimeout(function() {
-            if (err) {
-                throw err;
-            }
-
-            //res.setHeader("Content-Type", "application/json");
-            res.end(JSON.stringify(data));
-        }, 300);
+        if (err) {
+            throw err;
+        } else {
+            setTimeout(function() {
+                //res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify(data));
+            }, 300);  
+        }
     }, _filter);
 };
 
