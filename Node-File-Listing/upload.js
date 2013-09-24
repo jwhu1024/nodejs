@@ -15,24 +15,18 @@ exports.handleFileUpload = function(req, res, uploadDir) {
     },
     procProgressEvent = function(bytesReceived, bytesExpected) {
         if (uploadSetting.limitEnable && (bytesReceived > uploadSetting.limit)) {
-            try { 
-                throw new Error("Stopping file upload...");
-            } 
-            catch (e) {
-                // remove temp file
-                _unlinkFile(oldPath);
+            // remove temp file
+            _unlinkFile(oldPath);
 
-                // unregister our listener
-                _handleEvent(req, regEvent, false);
+            // unregister our listener
+            _handleEvent(req, regEvent, false);
 
-                // display limit
-                util.log(util.format("%d larger than %d", bytesReceived, uploadSetting.limit));
+            // display limit
+            util.log(util.format("%d larger than %d", bytesReceived, uploadSetting.limit));
 
-                // end of this request
-                res.writeHeader(500, "Internel Error");
-                res.end();
-                util.log(e.toString());
-            }
+            // end of this request
+            res.writeHeader(500, "Internel Error");
+            res.end();
         } else {
             // display progress
             var curPercent = Math.round((bytesReceived / bytesExpected) * 100);
@@ -92,7 +86,7 @@ exports.handleFileUpload = function(req, res, uploadDir) {
     regEvent = {
         fileBegin: procFileBegin,
         progress : procProgressEvent,
-        file     : procFileEvent,
+        //file     : procFileEvent,
         end      : procEndEvent,
         aborted  : procAbortEvent,
         error    : procErrorEvent
@@ -131,8 +125,9 @@ function _unlinkFile (_path) {
             setTimeout(function () {
                 fs.unlink(_path, function (err) {
                     util.log("successfully deleted file");
+                    oldPath = "";
                 });
-            }, 1000);
+            }, 0);
         }        
     });
 }

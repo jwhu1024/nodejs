@@ -16,7 +16,7 @@ exports.handleFileList = function (req, res, listFolder) {
 
     readDirectory(curDir, function (err, data) {
         if (err) {
-            throw err;
+            console.log(err);
         } else {
             setTimeout(function() {
                 res.end(JSON.stringify(data));
@@ -121,6 +121,7 @@ var readDirectory = function (path, callback, filter) {
                                 // callback w/ data
                                 callback(undefined, data);
                                 deepCount = 0;
+
                             } else {
                                 // add this property - lester_hu@bandrich.com [2013/09/14]
                                 obj.isFolder = true;
