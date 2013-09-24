@@ -30,9 +30,9 @@
 
 	<script type="text/javascript">
 		var cmp = function(a, b) {
-		  a = a.data.title.toLowerCase();
-		  b = b.data.title.toLowerCase();
-		  return a > b ? 1 : a < b ? -1 : 0;
+			a = a.data.title.toLowerCase();
+			b = b.data.title.toLowerCase();
+			return a > b ? 1 : a < b ? -1 : 0;
 		};
 
 		function bytesToSize(bytes) {
@@ -55,6 +55,7 @@
 		}
 
 		$(function() {
+			var isError = false;
 			var $tree = $("#tree");
 			// list/download
 			$tree.dynatree({
@@ -137,10 +138,23 @@
 				},
 				complete: function(response) {
 					$("#message").html("<font color='green'>"+response.responseText+"</font>");
-					window.location = "/";
+					if (!isError) {
+						window.location = "/";
+					} else {
+						isError = false;
+					}
 				},
-				error: function() {
+				error: function(request, status, error) {
 					$("#message").html("<font color='red'> ERROR: unable to upload files</font>");
+					isError = true;
+					if (request.status === 500) {
+						$.msgBox({
+					    title: "Ooops",
+					    content: "File size exceeds the upper limit!!!",
+					    type: "error",
+					    opacity: 0.7
+						});
+					}
 				}
 			};
 			$("#myForm").ajaxForm(options);

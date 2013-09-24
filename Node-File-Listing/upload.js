@@ -5,43 +5,70 @@ var fs            = require("fs"),
 exports.setting = uploadSetting;
 
 exports.handleFileUpload = function(req, res, uploadDir) {
-    var uploadObj,
-        oldPath,
+    var oldPath,
         newPath,
         prevPercent=0,
-    procFileEvent = function(name, file) {
-        util.log("Handle formidable file event");
-        uploadObj = file;
-        oldPath   = uploadObj.path;
-        newPath   = uploadDir + "/" + uploadObj.name;
-
-        if (uploadSetting.limitEnable && (file.size > uploadSetting.limit)) {
-            // remove temp file
-            _unlinkFile(oldPath);
-
-            // unregister our listener
-            _handleEvent(req, regEvent, false);
-
-            // display limit
-            util.log(util.format("%d larger than %d", file.size, uploadSetting.limit));
-
-            // end of this request
-            res.end("Exceeds the upper limit");
-        }
+    procFileBegin = function(name, file) {
+        util.log("Handle formidable fileBegin event");
+        oldPath = file.path;
+        newPath = uploadDir + "/" + file.name;
     },
     procProgressEvent = function(bytesReceived, bytesExpected) {
-        // display progress
-        var curPercent = Math.round((bytesReceived / bytesExpected) * 100);
+        if (uploadSetting.limitEnable && (bytesReceived > uploadSetting.limit)) {
+            try { 
+                throw new Error("Stopping file upload...");
+            } 
+            catch (e) {
+                // remove temp file
+                _unlinkFile(oldPath);
 
-        if (prevPercent !== curPercent) {
-            util.log(curPercent + "% uploaded");
-            prevPercent = curPercent;
+                // unregister our listener
+                _handleEvent(req, regEvent, false);
+
+                // display limit
+                util.log(util.format("%d larger than %d", bytesReceived, uploadSetting.limit));
+
+                // end of this request
+                res.writeHeader(500, "Internel Error");
+                res.end();
+                util.log(e.toString());
+            }
+        } else {
+            // display progress
+            var curPercent = Math.round((bytesReceived / bytesExpected) * 100);
+
+            if (prevPercent !== curPercent) {
+                util.log(curPercent + "% uploaded");
+                prevPercent = curPercent;
+            }    
         }
+    },
+    procFileEvent = function(name, file) {
+        // util.log("Handle formidable file event");
+        // oldPath   = uploadObj.path;
+        // newPath   = uploadDir + "/" + uploadObj.name;
+
+        // if (uploadSetting.limitEnable && (file.size > uploadSetting.limit)) {
+        //     // remove temp file
+        //     _unlinkFile(oldPath);
+
+        //     // unregister our listener
+        //     _handleEvent(req, regEvent, false);
+
+        //     // display limit
+        //     util.log(util.format("%d larger than %d", file.size, uploadSetting.limit));
+
+        //     // end of this request
+        //     res.end("Exceeds the upper limit");
+        // }
     },
     procEndEvent = function() {
         util.log("Handle formidable end event");
         // do something when form transfer complete
-        fs.rename(oldPath, newPath, function () {
+        fs.rename(oldPath, newPath, function (err) {
+            if (err) {
+                throw err;
+            }
             util.log("upload succeed");
             res.end("");
         });
@@ -60,10 +87,12 @@ exports.handleFileUpload = function(req, res, uploadDir) {
         // just return error message
         res.end("Unknown Error");
     },
+    
     // Event & Callback
     regEvent = {
-        file     : procFileEvent,
+        fileBegin: procFileBegin,
         progress : procProgressEvent,
+        file     : procFileEvent,
         end      : procEndEvent,
         aborted  : procAbortEvent,
         error    : procErrorEvent
@@ -99,9 +128,11 @@ function _handleEvent(req, regEvent, reg) {
 function _unlinkFile (_path) {
     fs.exists(_path, function (exists) {
         if (exists) {
-            fs.unlink(_path, function (err) {
-                util.log("successfully deleted file");
-            });    
+            setTimeout(function () {
+                fs.unlink(_path, function (err) {
+                    util.log("successfully deleted file");
+                });
+            }, 1000);
         }        
     });
 }

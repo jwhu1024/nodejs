@@ -12,14 +12,15 @@ exports.handleFileList = function (req, res, listFolder) {
             hidden  : settings.hidden
         };
 
+    res.setHeader("Content-Type", "application/json");
+
     readDirectory(curDir, function (err, data) {
         if (err) {
             throw err;
         } else {
             setTimeout(function() {
-                //res.setHeader("Content-Type", "application/json");
                 res.end(JSON.stringify(data));
-            }, 300);  
+            }, 100);
         }
     }, _filter);
 };
