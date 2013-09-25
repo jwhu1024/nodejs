@@ -32,7 +32,15 @@ exports.handleFileList = function(req, res, listFolder) {
  * @return {[number]}         [current depth]
  */
 var calcDepth = function (rootDir, curDir) {
+    var isWin = !!process.platform.match(/^win/);
+
+
     var relPath = "/" + path.relative(rootDir, curDir);
+
+    if (isWin) {
+        relPath = relPath.replace(/\b\\\b/gi, "/");
+    }
+
     return relPath.match(/\//g).length;
 };
 
