@@ -1,20 +1,20 @@
 var util      = require("util"),
     path      = require("path"),
     fs        = require("fs"),
-    settings  = require("./conf/setting.json"),
-    deepCount = 0;
+    settings  = require("./conf/setting.json");
 
-exports.handleFileList = function (req, res, listFolder) {
-    var curDir = "./" + listFolder,
+exports.handleFileList = function(req, res, listFolder) {
+    var curDir  = "./" + listFolder,
         _filter = {
             depth   : settings.depth,
             depthAt : settings.depthAt,
-            hidden  : settings.hidden
+            hidden  : settings.hidden,
+            root    : curDir
         };
 
     res.setHeader("Content-Type", "application/json");
 
-    readDirectory(curDir, function (err, data) {
+    readDirectory(curDir, function(err, data) {
         if (err) {
             console.log(err);
         } else {
@@ -23,6 +23,17 @@ exports.handleFileList = function (req, res, listFolder) {
             }, 100);
         }
     }, _filter);
+};
+
+/**
+ * [calcDepth description]
+ * @param  {[string]} rootDir [root directory path]
+ * @param  {[string]} curDir  [prepare to compare with rootdir]
+ * @return {[number]}         [current depth]
+ */
+var calcDepth = function (rootDir, curDir) {
+    var relPath = "/" + path.relative(rootDir, curDir);
+    return relPath.match(/\//g).length;
 };
 
 /**
@@ -43,7 +54,7 @@ exports.handleFileList = function (req, res, listFolder) {
  * @param callback  = function to callback to: callback(err, data)
  * @param [filter]  = (optional) filter object
  */
-var readDirectory = function (path, callback, filter) {
+var readDirectory = function(path, callback, filter) {
     if (filter) {
         // process filter. are we too deep yet?
         if (!filter.depthAt) {
@@ -59,7 +70,7 @@ var readDirectory = function (path, callback, filter) {
     }
 
     // queue up a "readdir" file system call (and return)
-    fs.readdir(path, function (err, files) {
+    fs.readdir(path, function(err, files) {
         if (err) {
             callback(err);
             return;
@@ -83,12 +94,12 @@ var readDirectory = function (path, callback, filter) {
         var data = [];
 
         // iterate over each file in the dir
-        files.forEach(function (title) {
+        files.forEach(function(title) {
             // ignore files that start with a "." UNLESS requested to process hidden files and folders
             if (doHidden || title.indexOf(".") !== 0) {
                 // queue up a "stat" file system call for every file (and return)
                 count += 1;
-                fs.stat(path + "/" + title, function (err, stat) {
+                fs.stat(path + "/" + title, function(err, stat) {
                     if (err) {
                         callback(err);
                         return;
@@ -102,8 +113,8 @@ var readDirectory = function (path, callback, filter) {
 
                     if (processFile) {
                         var obj = {
-                            title : title,
-                            path : path + "/" + title
+                            title: title,
+                            path: path + "/" + title
                         };
 
                         if (stat.isFile()) {
@@ -116,20 +127,22 @@ var readDirectory = function (path, callback, filter) {
                         if (stat.isDirectory()) {
                             countFolders += 1;
 
-                            // check depth befor recursive - lester_hu@bandrich.com [2013/09/14]
-                            if (filter.depth > 0 && deepCount > filter.depth) {
-                                // callback w/ data
-                                callback(undefined, data);
-                                deepCount = 0;
+                            // add this property - lester_hu@bandrich.com [2013/09/14]
+                            obj.isFolder = true;
 
-                            } else {
-                                // add this property - lester_hu@bandrich.com [2013/09/14]
-                                obj.isFolder = true;
+                            // perform "readDirectory" on each child folder (which queues up a readdir and returns)
+                            (function(obj2) {
+                                var nextPath = path + "/" + title,
+                                    curDepth = calcDepth(filter.root, nextPath);
 
-                                // perform "readDirectory" on each child folder (which queues up a readdir and returns)
-                                (function (obj2) {
-                                    deepCount++;
-                                    readDirectory(path + "/" + title, function (err, data2) {
+                                // check depth before recursive - lester_hu@bandrich.com [2013/09/25]
+                                if (filter.depth && curDepth > filter.depth) {
+                                    // too deep! we don't remove whole object, just assign null array for current object - lester_hu@bandrich.com [2013/09/25]
+                                    obj2.children = [];
+                                    countFolders -= 1;
+                                    callback(undefined, data);
+                                } else {
+                                    readDirectory(nextPath, function(err, data2) {
                                         if (err) {
                                             callback(err);
                                             return;
@@ -144,8 +157,8 @@ var readDirectory = function (path, callback, filter) {
                                             // more children folders to be processed. do nothing here.
                                         }
                                     }, filter);
-                                })(obj);
-                            }
+                                }
+                            })(obj);
                         }
                     }
 
