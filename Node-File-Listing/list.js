@@ -14,7 +14,7 @@ exports.handleFileList = function(req, res, listFolder) {
 
     res.setHeader("Content-Type", "application/json");
 
-    readDirectory(curDir, function(err, data) {
+    readDirectory(curDir, function (err, data) {
         if (err) {
             console.log(err);
         } else {
@@ -75,7 +75,7 @@ var readDirectory = function(path, callback, filter) {
     }
 
     // queue up a "readdir" file system call (and return)
-    fs.readdir(path, function(err, files) {
+    fs.readdir(path, function (err, files) {
         if (err) {
             callback(err);
             return;
@@ -99,12 +99,12 @@ var readDirectory = function(path, callback, filter) {
         var data = [];
 
         // iterate over each file in the dir
-        files.forEach(function(title) {
+        files.forEach(function (title) {
             // ignore files that start with a "." UNLESS requested to process hidden files and folders
             if (doHidden || title.indexOf(".") !== 0) {
                 // queue up a "stat" file system call for every file (and return)
                 count += 1;
-                fs.stat(path + "/" + title, function(err, stat) {
+                fs.stat(path + "/" + title, function (err, stat) {
                     if (err) {
                         callback(err);
                         return;
@@ -136,7 +136,7 @@ var readDirectory = function(path, callback, filter) {
                             obj.isFolder = true;
 
                             // perform "readDirectory" on each child folder (which queues up a readdir and returns)
-                            (function(obj2) {
+                            (function (obj2) {
                                 var nextPath = path + "/" + title,
                                     curDepth = calcDepth(filter.root, nextPath);
 
@@ -147,7 +147,7 @@ var readDirectory = function(path, callback, filter) {
                                     countFolders -= 1;
                                     callback(undefined, data);
                                 } else {
-                                    readDirectory(nextPath, function(err, data2) {
+                                    readDirectory(nextPath, function (err, data2) {
                                         if (err) {
                                             callback(err);
                                             return;
