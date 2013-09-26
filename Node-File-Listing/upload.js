@@ -61,7 +61,7 @@ exports.handleFileUpload = function(req, res, uploadDir) {
         // do something when form transfer complete
         fs.rename(oldPath, newPath, function (err) {
             if (err) {
-                throw err;
+                console.log(err);
             }
             util.log("upload succeed");
             res.end("");

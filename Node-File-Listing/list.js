@@ -7,7 +7,6 @@ exports.handleFileList = function(req, res, listFolder) {
     var curDir  = "./" + listFolder,
         _filter = {
             depth   : settings.depth,
-            depthAt : settings.depthAt,
             hidden  : settings.hidden,
             root    : curDir
         };
@@ -60,20 +59,6 @@ var calcDepth = function (rootDir, curDir) {
  * @param [filter]  = (optional) filter object
  */
 var readDirectory = function(path, callback, filter) {
-    if (filter) {
-        // process filter. are we too deep yet?
-        if (!filter.depthAt) {
-            // initialize what depth we are at
-            filter.depthAt = 1;
-        }
-
-        if (filter.depth && filter.depth < filter.depthAt) {
-            // we are too deep. return "nothing found"
-            callback(undefined, []);
-            return;
-        }
-    }
-
     // queue up a "readdir" file system call (and return)
     fs.readdir(path, function (err, files) {
         if (err) {
