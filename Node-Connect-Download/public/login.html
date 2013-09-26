@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<!--
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+-->
+
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap-combined.min.css" />
+<script src="./js/bootstrap.min.js"></script>
+
+    <meta charset="utf-8">
+    <title>Sign in &middot; Twitter Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <style type="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form action="" class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input id="user" type="text" class="input-block-level" placeholder="User" autofocus>
+        <input id="pwd" type="Password" class="input-block-level" placeholder="Password">
+        <label class="checkbox">
+        <!--
+          <input type="checkbox" value="remember-me"> Remember me
+        -->
+        </label>
+        <button id="signinbtn" class="btn btn-large btn-primary" type="submit">Sign in</button>
+        <!--
+        <button id="signoutbtn" class="btn btn-large btn-primary" type="submit">Sign out</button>
+        -->
+      </form>
+    </div> <!-- /container -->
+
+    <script>
+       $(function() {
+        var cacheable = false;
+        var $user  = $("#user"),
+            $pwd   = $("#pwd");
+
+        $("#signinbtn").click(function() {
+          $.ajax({
+            type : "POST",
+            data: { name: "admin", pwd: "admin" },
+            //data: { name: $user.val(), pwd: $pwd.val() },
+            url : "/login",
+            success : function(data) {
+              if (data === "/login.html") {
+                alert("Please login with correct account");
+              }
+              window.location = data;
+            }, 
+            error : function() {
+              alert("error");
+            },
+            cache: cacheable
+          });
+          return false;
+        });
+/*
+        $("#signoutbtn").click(function() {
+          $.ajax({
+            type : "GET",
+            data: {},
+            url : "/logout",
+            success : function(data) {
+              alert("Log out success");
+            }, 
+            error : function(jqXHR, textStatus, errorThrown) {
+              alert("error");
+            },
+            cache: cacheable
+          });
+          return false;
+        });
+*/
+      });
+    </script>
+  </body>
+</html>

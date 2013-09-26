@@ -3,12 +3,13 @@ var connect			= require("connect"),
 	redirect		= require("connect-redirection"),
 	account			= require("./conf/account.json"),
 	util			= require("util"),
-	sessionManager	= require("./sessionManager.js");
+	sessionManager	= require("./sessionManager.js"),
+	mime 			= require('mime');
 
 var keepSession = true;
 
 app
-	.use(connect.logger("dev"))					// for logger
+	.use(connect.logger("tiny"))				// for logger
 	.use(connect.favicon("public/favicon.ico"))	// favicon setting
 	.use(connect.query())						// gives us req.query
 	.use(connect.bodyParser())					// gives us req.body
@@ -25,10 +26,37 @@ app
 	.use(connect.static(__dirname + "/static")) // serve static file
 	.use(connect.router(function(router) {
 		router.all("*", function(req, res, next) {
-			sessionManager.checkSession(req, res, next);
+			//sessionManager.checkSession(req, res, next);
+			next();
+		});
+
+		router.get("/upload_dir/*", function (req, res) {
+			console.log("########################################");
+			var downloadFile = "./upload_dir/" + req.params[0];
+			console.log(downloadFile);
+			require("fs").readFile(downloadFile, function (err, data) {
+				if (err) {
+					console.log(err);
+				}
+			  	console.log(data);
+			  	res.write(data);
+			  	res.end();
+			});
+			// require("fs").exists(downloadFile, function(exists) {
+
+			// }
+			//res.download(downloadFile);
+			// var downloadFile = uploadFolder + "/" + req.params[0];
+			// require("fs").exists(downloadFile, function(exists) {
+			// 	if (exists) {
+			// 		res.download(downloadFile);
+			// 	} else {
+			// 		res.end("File Not Found");
+			// 	}
+			// });
 		});
 		
-		router.get("/", function(req, res) {
+		router.get("/", function (req, res) {
 			// for debug
 			sessionManager.dumpSession();
 			

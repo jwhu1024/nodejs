@@ -1,0 +1,98 @@
+[{
+	"title": "1",
+	"path": "./upload_dir/1",
+	"isFolder": true,
+	"children": [{
+		"title": "1-1",
+		"path": "./upload_dir/1/1-1",
+		"isFolder": true,
+		"children": [{
+			"title": "1-2",
+			"path": "./upload_dir/1/1-1/1-2",
+			"isFolder": true,
+			"children": [{
+				"title": "1-3",
+				"path": "./upload_dir/1/1-1/1-2/1-3",
+				"isFolder": true,
+				"children": [{
+					"title": "1-4",
+					"path": "./upload_dir/1/1-1/1-2/1-3/1-4",
+					"isFolder": true,
+					"children": [{
+						"title": "1-5",
+						"path": "./upload_dir/1/1-1/1-2/1-3/1-4/1-5",
+						"isFolder": true,
+						"children": []
+					}]
+				}, {
+					"title": "1-4.txt",
+					"path": "./upload_dir/1/1-1/1-2/1-3/1-4.txt"
+				}]
+			}, {
+				"title": "1-3.txt",
+				"path": "./upload_dir/1/1-1/1-2/1-3.txt"
+			}]
+		}, {
+			"title": "1-2.jpg",
+			"path": "./upload_dir/1/1-1/1-2.jpg",
+			"size": 44306
+		}]
+	}, {
+		"title": "1-1.jpg",
+		"path": "./upload_dir/1/1-1.jpg",
+		"size": 44306
+	}]
+}, {
+	"title": "2",
+	"path": "./upload_dir/2",
+	"isFolder": true,
+	"children": [{
+		"title": "2-1.jpg",
+		"path": "./upload_dir/2/2-1.jpg",
+		"size": 44306
+	}]
+}, {
+	"title": "3",
+	"path": "./upload_dir/3",
+	"isFolder": true,
+	"children": [{
+		"title": "3-1",
+		"path": "./upload_dir/3/3-1",
+		"isFolder": true,
+		"children": [{
+			"title": "3-2",
+			"path": "./upload_dir/3/3-1/3-2",
+			"isFolder": true,
+			"children": [{
+				"title": "3-3",
+				"path": "./upload_dir/3/3-1/3-2/3-3",
+				"isFolder": true,
+				"children": []
+			}, {
+				"title": "3-3.jpg",
+				"path": "./upload_dir/3/3-1/3-2/3-3.jpg",
+				"size": 44306
+			}]
+		}, {
+			"title": "3-2.jpg",
+			"path": "./upload_dir/3/3-1/3-2.jpg",
+			"size": 44306
+		}]
+	}, {
+		"title": "3-1.jpg",
+		"path": "./upload_dir/3/3-1.jpg",
+		"size": 44306
+	}]
+}, {
+	"title": "4",
+	"path": "./upload_dir/4",
+	"isFolder": true,
+	"children": []
+}, {
+	"title": "dummy",
+	"path": "./upload_dir/dummy"
+}, {
+	"title": "Test_200M.zip",
+	"path": "./upload_dir/Test_200M.zip",
+	"size": 209715200
+}]
