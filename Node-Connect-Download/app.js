@@ -15,35 +15,7 @@ app
 	.use(connect.static(__dirname + "/static")) // serve static file
 	.use(connect.router(function(router) {
 		router.get("/upload_dir/*", function (req, res) {
-			var mimeType		= mime.lookup(req.params[0]),
-				downloadFile	= "./upload_dir/" + req.params[0],
-				strDisposition  = util.format("attachment; filename*=UTF-8''%s", req.params[0]);
-
-			fs.exists(downloadFile, function (_exist) {
-				if (_exist) {
-					fs.readFile(downloadFile, function (err, data) {
-						if (err) {
-							internelErrorResponse(res);
-						} else {
-							fs.stat(downloadFile, function (err, stats) {
-								if (err) {
-									internelErrorResponse(res);
-								} else {
-									res.writeHead(200, {
-										"Content-Length"      : stats.size,
-										"Content-Type"        : mimeType,
-										"Content-Disposition" : strDisposition
-									});
-									res.write(data);
-									res.end();
-								}
-							});
-						}
-					});
-				} else {
-					notFoundResponse(res);
-				}
-			});
+			w
 		});
 	}))
 .listen(3000);
