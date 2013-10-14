@@ -1,8 +1,8 @@
 var jsonMgr = require('./jsonMgr.js').jsonMgr,
-	brConf = new jsonMgr({		// create new database
-		path: "./conf.json",
-		indent: 4,
-		sync : true
+	brConf  = new jsonMgr({       // create new database
+		path   : './conf.json',
+		indent : 4,
+		sync   : true
 	});
 
 // create value

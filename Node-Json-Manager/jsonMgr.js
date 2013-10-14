@@ -1,8 +1,14 @@
 var jsonFile = require('json-file'),
 	jsonMgr  = exports.jsonMgr = function(_opts) {
-		this.path   = _opts.path   || './conf.json';
-		this.indent = _opts.indent || 0;
-		this.sync   = _opts.sync   || false;
+		if (typeof _opts === "undefined") {
+			this.path   = './conf.json';
+			this.indent = 0;
+			this.sync   = false;
+		} else {
+			this.path   = _opts.path;
+			this.indent = _opts.indent;
+			this.sync   = _opts.sync;
+		}
 		this.data   = jsonFile.read(this.path);
 	};
 
@@ -17,7 +23,6 @@ jsonMgr.prototype.get = function(_key) {
 jsonMgr.prototype.set = function(_key, _value) {
 	try {
 		this.data.set(_key, _value);
-		console.log(this.sync);
 		if (this.sync === true) {
 			this.writeToFile();
 		}
