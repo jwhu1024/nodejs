@@ -8,9 +8,9 @@ Wrapper file-json from https://github.com/UmbraEngineering/json-file
 ##Creating an object
 ```javascript
 var conf = new jsonMgr({        // create new object
-        path   : "./conf.json", // file path
-        indent : 4,             // json indent
-        sync   : true           // write to file when setting?
+        path   : "./conf.json", // file path (default: './conf.json')
+        indent : 4,             // json indent (default: 0)
+        sync   : true           // write to file when setting? (default: false)
     });
 ```
 

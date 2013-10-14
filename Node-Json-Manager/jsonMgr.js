@@ -1,8 +1,8 @@
 var jsonFile = require('json-file'),
 	jsonMgr  = exports.jsonMgr = function(_opts) {
-		this.path   = _opts.path;
-		this.indent = _opts.indent;
-		this.sync   = _opts.sync;
+		this.path   = _opts.path   || './conf.json';
+		this.indent = _opts.indent || 0;
+		this.sync   = _opts.sync   || false;
 		this.data   = jsonFile.read(this.path);
 	};
 
