@@ -16,14 +16,16 @@ var conf = new jsonMgr({        // create new object
 
 ##How to setting the value?
 ```javascript
+// set(key, value)
 conf.set("a", "1");
 conf.set("a.b.c", "2");
 ```
 
 ##How to get the value?
 ```javascript
-conf.get("a", "1");             // 1
-conf.get("a.b.c", "2");         // 2
+// get(key)
+conf.get("a"));     // output : 1
+conf.get("a.b.c");  // output : 2      
 ```
 
 ##Nested objects using the "dot" separated
@@ -35,7 +37,7 @@ var nestObj = {
 };
 
 // read nested object
-conf.get("nestObj.obj.obj1");   // 12345
+conf.get("nestObj.obj.obj1");           // output : 12345
 
 // write nested object
 conf.set("nestObj.obj.obj1", "45678");  // obj1 will be changed to 45678
