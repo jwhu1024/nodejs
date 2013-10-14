@@ -25,3 +25,18 @@ conf.set("a.b.c", "2");
 conf.get("a", "1");             // 1
 conf.get("a.b.c", "2");         // 2
 ```
+
+##Nested objects using the "dot" separated
+```javascript
+var nestObj = {
+    obj : {
+        obj1 : "12345"
+    }
+};
+
+// read nested object
+conf.get("nestObj.obj.obj1");   // 12345
+
+// write nested object
+conf.set("nestObj.obj.obj1", "45678");  // obj1 will be changed to 45678
+```
