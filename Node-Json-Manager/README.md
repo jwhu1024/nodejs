@@ -42,3 +42,5 @@ conf.get("nestObj.obj.obj1");           // output : 12345
 // write nested object
 conf.set("nestObj.obj.obj1", "45678");  // obj1 will be changed to 45678
 ```
+
+More example please refer to app.js
