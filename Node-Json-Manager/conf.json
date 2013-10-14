@@ -1,27 +1,21 @@
 {
-	"WIFI_CONFIG": {
-		"Enable"                  : 1,
-		"SSID"                    : "LESTER_LTE",
-		"User_ctrl"               : 50,
-		"Range"                   : 11,
-		"Mac"                     : "334455667788",
-		"Mode"                    : "802.11b/g/n compatible",
-		"Channel"                 : "Auto",
-		"Rts_threshould"          : 1234,
-		"Fragmentation_threshould": 5678,
-		"SSID_broadcast"          : 1,
-		"Encryption"              : "WPA/WPA2 Personal Mixed Mode (AES)",
-		"Key"                     : "9632587410",
-		"Mac_filter"              : 0,
-		"Region"                  : "GGG",
-		"AclTable"                : 2,
-		"Sharing"                 : 0,
-		"Major_Ver"               : "1",
-		"Minor_Ver"               : "2"
-	},
-	"LED_CONFIG": {
-		"Blink_period"            : 1,
-		"Pick_period"             : 3,
-		"Init_blink"              : 5
-	}
+    "WIFI_CONFIG": {
+        "Enable": 1,
+        "SSID": "LESTER_LTE",
+        "User_ctrl": 50,
+        "Range": 11,
+        "Mac": "334455667788",
+        "Mode": "802.11b/g/n compatible",
+        "Channel": "Auto",
+        "Nested_obj" : {
+            "obj1" : "obj1",
+            "obj2" : "obj2"
+        }
+    },
+    "LED_CONFIG": {
+        "Blink_period": 1,
+        "Pick_period": 3,
+        "Init_blink": 5,
+        "New_Value": "99"
+    }
 }

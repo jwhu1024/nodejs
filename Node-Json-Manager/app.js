@@ -29,17 +29,7 @@ console.log("WIFI-Range                      : " + brConf.get('WIFI_CONFIG.Range
 console.log("WIFI-Mac                        : " + brConf.get('WIFI_CONFIG.Mac'));
 console.log("WIFI-Mode                       : " + brConf.get('WIFI_CONFIG.Mode'));
 console.log("WIFI-Channel                    : " + brConf.get('WIFI_CONFIG.Channel'));
-console.log("WIFI-Rts_threshould             : " + brConf.get('WIFI_CONFIG.Rts_threshould'));
-console.log("WIFI-Fragmentation_threshould   : " + brConf.get('WIFI_CONFIG.Fragmentation_threshould'));
-console.log("WIFI-SSID_broadcast             : " + brConf.get('WIFI_CONFIG.SSID_broadcast'));
-console.log("WIFI-Encryption                 : " + brConf.get('WIFI_CONFIG.Encryption'));
-console.log("WIFI-Key                        : " + brConf.get('WIFI_CONFIG.Key'));
-console.log("WIFI-Mac_filter                 : " + brConf.get('WIFI_CONFIG.Mac_filter'));
-console.log("WIFI-Region                     : " + brConf.get('WIFI_CONFIG.Region'));
-console.log("WIFI-AclTable                   : " + brConf.get('WIFI_CONFIG.AclTable'));
-console.log("WIFI-Sharing                    : " + brConf.get('WIFI_CONFIG.Sharing'));
-console.log("WIFI-Major_Ver                  : " + brConf.get('WIFI_CONFIG.Major_Ver'));
-console.log("WIFI-Minor_Ver                  : " + brConf.get('WIFI_CONFIG.Minor_Ver'));
+console.log("WIFI-Nested_obj                 : " + brConf.get('WIFI_CONFIG.Nested_obj.obj1'));
 console.log('---------------------------------');
 
 // Handle exception otherwise node will crash when error occured
