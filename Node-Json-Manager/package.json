@@ -1,0 +1,21 @@
+{
+  "name": "Node-Json-Manager",
+  "version": "0.0.0",
+  "description": "module for json control",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "null"
+  },
+  "keywords": [
+    "null"
+  ],
+  "dependencies": {
+    "json-file": "0.0.0"
+  },
+  "author": "lester_hu@bandrich.com",
+  "license": "MIT"
+}
