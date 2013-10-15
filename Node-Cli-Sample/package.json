@@ -1,0 +1,14 @@
+{
+  "name": "cmd-line-skeleton",
+  "version": "0.0.0",
+  "description": "Command line interface with nodejs",
+  "main": "cmd_sender.js",
+  "scripts": {
+    "test": "node cmd_sender.js"
+  },
+  "author": "lester_hu@bandrich.com",
+  "license": "MIT",
+  "dependencies": {
+    "prompt": "~0.2.11"
+  }
+}
