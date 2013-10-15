@@ -24,6 +24,7 @@ jsonMgr.prototype.set = function(_key, _value) {
 	} catch (err) {
 		throw err;
 	}
+	return this;
 };
 
 jsonMgr.prototype.writeToFile = function() {
