@@ -1,8 +1,10 @@
-nodejs-advanced-topic
+Node-Zeromq-Test
 ==============
 
-`npm install`
+* `npm install`
+* `node app.js` && `node cmd_sender.js`
 
-`node app.js`
+Command range 1001~1021 for get value
+Command range 2001~2021 for set value
 
-`http://localhost:3000`
+This project is running at Ubuntu-12.04
