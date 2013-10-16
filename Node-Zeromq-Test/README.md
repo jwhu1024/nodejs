@@ -1,4 +1,4 @@
-Node-Zeromq-Test
+Node-Zeromq-Test (command line interface)
 ==============
 
 * `npm install`
