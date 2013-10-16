@@ -1,0 +1,27 @@
+{
+	"WIFI_CONFIG": {
+		"Enable"                  : "1",
+		"SSID"                    : "BR_LTE",
+		"User_ctrl"               : "5",
+		"Range"                   : "14",
+		"Mac"                     : "001122334455",
+		"Mode"                    : "802.11b/g/n compatible",
+		"Channel"                 : "Auto",
+		"Rts_threshould"          : "2346",
+		"Fragmentation_threshould": "2346",
+		"SSID_broadcast"          : "1",
+		"Encryption"              : "WPA/WPA2 Personal Mixed Mode (AES)",
+		"Key"                     : "1234567890",
+		"Mac_filter"              : "0",
+		"Region"                  : "FCC",
+		"AclTable"                : "2",
+		"Sharing"                 : "0",
+		"Major_Ver"               : "1",
+		"Minor_Ver"               : "2"
+	},
+	"LED_CONFIG": {
+		"Blink_period"            : "1",
+		"Pick_period"             : "3",
+		"Init_blink"              : "5"
+	}
+}
