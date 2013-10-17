@@ -64,3 +64,13 @@ function printDebugMsg (_idx, _type) {
 process.on('uncaughtException', function(err) {
     console.error(err.stack);
 });
+
+var socket = zmq.socket('pull'),
+	port   = "tcp://127.0.0.1:7777";
+socket.connect(port);
+console.log('connected!');
+
+socket.on('message', function(data) {
+	console.log('response from czmq : ' + arguments[0].toString());
+	console.log('response from czmq : ' + arguments[1].toString());
+});
