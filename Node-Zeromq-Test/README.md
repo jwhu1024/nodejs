@@ -11,4 +11,10 @@ Node-Zeromq-Test (command line interface)
 * cmd_sender.js responsible for the transfer command
 * app.js responsible for the receive command and access json file
 
+##How to compile cSub
+`sudo ./build`
+
+##How to run cSub
+`sudo ./cSub`
+
 This project is running at Ubuntu-12.04
