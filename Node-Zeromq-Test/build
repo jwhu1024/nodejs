@@ -1,0 +1,5 @@
+#! /bin/sh
+
+rm -f cSub
+gcc -o cSub cSub.c -lczmq -lzmq
+
